@@ -5,10 +5,6 @@ import com.marcelo.algafood.domain.model.CnpjGroup;
 import com.marcelo.algafood.domain.model.CpfGroup;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-
-import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @Getter
 @RequiredArgsConstructor

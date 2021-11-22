@@ -1,10 +1,9 @@
 package com.marcelo.algafood.domain.service;
 
 
-import com.marcelo.algafood.api.model.input.ColaboradorInput;
 import com.marcelo.algafood.domain.exception.ColaboradorEmUsoException;
 import com.marcelo.algafood.domain.exception.ColaboradorNaoEncontradoException;
-import com.marcelo.algafood.domain.exception.EntityNotFoundException;
+import com.marcelo.algafood.domain.exception.ConstraintViolationException;
 import com.marcelo.algafood.domain.model.Colaborador;
 import com.marcelo.algafood.domain.repository.CafeRepository;
 import com.marcelo.algafood.domain.repository.ColaboradorRepository;
@@ -13,7 +12,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -31,12 +29,12 @@ public class CadastroColaboradorService {
     @Autowired
     private CadastroCafeService cafeService;
 
-
     public Colaborador save(Colaborador colaborador) {
         try {
             return colaboradorRepository.save(colaborador);
-        } catch (EntityNotFoundException ex) {
-            throw new EntityNotFoundException(ex.getMessage());
+        } catch (DataIntegrityViolationException ex) {
+            throw new ConstraintViolationException(
+                    String.format("CPF JÁ CADASTRADO"), null, ex.getCause().toString());
         }
     }
 

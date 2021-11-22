@@ -265,7 +265,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<?> handleCpfJaCadastrado(ConstraintViolationException ex, WebRequest request) {
+    public ResponseEntity<?> handleCpfOrCnpjJaCadastrado(ConstraintViolationException ex, WebRequest request) {
 
         HttpStatus status = HttpStatus.CONFLICT;
         MessagesTypes messageTypes = MessagesTypes.CPF_CAFE_JA_CADASTRADO;

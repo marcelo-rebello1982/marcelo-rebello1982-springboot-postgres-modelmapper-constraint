@@ -1,7 +1,5 @@
 package com.marcelo.algafood.domain.model;
 
-import com.marcelo.algafood.domain.model.Colaborador;
-import org.checkerframework.checker.units.qual.C;
 import org.hibernate.validator.spi.group.DefaultGroupSequenceProvider;
 
 import java.util.ArrayList;

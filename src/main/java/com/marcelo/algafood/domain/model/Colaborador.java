@@ -18,10 +18,11 @@ import java.util.List;
 @Getter
 @Setter
 @Table
+@GroupSequenceProvider(ColaboradorGroupSequenceProvider.class)
 public class Colaborador extends AbstractEntity<Long> {
 
     //@Table(uniqueConstraints = {@UniqueConstraint(name = "unq_cpf", columnNames = {"cpf"})})
-    // @GroupSequenceProvider(ColaboradorGroupSequenceProvider.class)
+    //
 
 
     @Column(nullable = false)
@@ -34,7 +35,6 @@ public class Colaborador extends AbstractEntity<Long> {
     private ColaboradorType colaboradorType;
 
 
-    //   @CPF
 
     @NotBlank
     @CPF(groups = CpfGroup.class)
