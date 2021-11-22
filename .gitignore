@@ -4,6 +4,11 @@ target/
 !**/src/main/**
 !**/src/test/**
 
+### NetBeans ###
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+
 ### STS ###
 .apt_generated
 .classpath
@@ -29,3 +34,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+
+

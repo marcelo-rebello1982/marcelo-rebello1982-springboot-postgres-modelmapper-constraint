@@ -33,11 +33,11 @@ public class CadastroColaboradorService {
         try {
             return colaboradorRepository.save(colaborador);
         } catch (DataIntegrityViolationException ex) {
+            Colaborador response = colaboradorRepository.isExists(colaborador.getCpfcnpj());
             throw new ConstraintViolationException(
-                    String.format("CPF JÁ CADASTRADO"), null, ex.getCause().toString());
+                    String.format("CPF :  JÁ CADASTRADO PARA : " + response.getNome()), null , ex.getCause().toString());
         }
     }
-
 
     public Colaborador findById(Long colaboradorId) {
         return colaboradorRepository.findById(colaboradorId)

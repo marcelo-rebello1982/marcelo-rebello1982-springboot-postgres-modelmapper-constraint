@@ -269,7 +269,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
         HttpStatus status = HttpStatus.CONFLICT;
         MessagesTypes messageTypes = MessagesTypes.CPF_CAFE_JA_CADASTRADO;
-        String detail = ex.getMessage();
+        String detail = ex.getLocalizedMessage();
 
         ErrorDetails errorDetails = createErrorDetails(status, messageTypes, ex.getMessage())
                 .userMessage(detail)

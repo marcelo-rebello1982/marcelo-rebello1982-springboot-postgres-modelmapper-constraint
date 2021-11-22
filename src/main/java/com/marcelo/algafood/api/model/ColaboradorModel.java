@@ -14,8 +14,9 @@ import java.util.List;
 @Getter
 public class ColaboradorModel {
 
+    private Integer id;
     private String nome;
-    private String cpfOucnpj;
+    private String cpfcnpj;
     private OffsetDateTime dataCadastro;
     private OffsetDateTime dataAtualizacao;
     private ColaboradorType colaboradorType;

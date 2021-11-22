@@ -17,6 +17,7 @@ public class ColaboradorGroupSequenceProvider implements DefaultGroupSequencePro
         }
         return groups;
     }
+
     public boolean isSelectedPerson(Colaborador colaborador) {
         return colaborador != null && colaborador.getColaboradorType() != null;
     }

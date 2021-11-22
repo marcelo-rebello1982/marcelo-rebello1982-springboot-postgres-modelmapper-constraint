@@ -17,7 +17,7 @@ import java.util.List;
 public class ColaboradorInput extends AbstractEntity<Long> {
 
     private String nome;
-    private String cpfOucnpj;
+    private String cpfcnpj;
     private OffsetDateTime dataCadastro;
     private OffsetDateTime dataAtualizacao;
     private ColaboradorType colaboradorType;

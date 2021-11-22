@@ -24,9 +24,8 @@ public class Colaborador extends AbstractEntity<Long> {
     //@Table(uniqueConstraints = {@UniqueConstraint(name = "unq_cpf", columnNames = {"cpf"})})
     //
 
-
-    @Column(nullable = false)
     @NotBlank
+    @Column(nullable = false)
     private String nome;
 
     @NotNull
@@ -34,13 +33,11 @@ public class Colaborador extends AbstractEntity<Long> {
     @Column(name = "colaborador_type")
     private ColaboradorType colaboradorType;
 
-
-
     @NotBlank
     @CPF(groups = CpfGroup.class)
     @CNPJ(groups = CnpjGroup.class)
-    @Column(name = "cpf_cnpj")
-    private String cpfOucnpj;
+    @Column(name = "cpf_cnpj", unique = true)
+    private String cpfcnpj;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "colaborador_cafe", joinColumns = {@JoinColumn(name = "colaborador_id", referencedColumnName = "id")},

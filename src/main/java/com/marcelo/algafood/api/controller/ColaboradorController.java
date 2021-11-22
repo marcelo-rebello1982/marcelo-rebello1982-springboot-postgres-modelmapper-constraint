@@ -11,8 +11,8 @@ import com.marcelo.algafood.domain.model.Colaborador;
 import com.marcelo.algafood.domain.model.Restaurante;
 import com.marcelo.algafood.domain.service.CadastroColaboradorService;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
@@ -48,8 +48,8 @@ public class ColaboradorController {
 
     @GetMapping("/findByID/{colaboradorId}")
     public ColaboradorModel findById(@PathVariable Long colaboradorId) {
-        Colaborador colaborador = colaboradorService.findById(colaboradorId);
-        return colaboradorModelMapper.toModel(colaborador);
+        Colaborador colaboradorResponse = colaboradorService.findById(colaboradorId);
+        return colaboradorModelMapper.toModel(colaboradorResponse);
 
     }
 
@@ -60,7 +60,7 @@ public class ColaboradorController {
         try {
             Colaborador colaborador = colaboradorInputDisassembler.toDomainObject(colaboradorInput);
             return colaboradorModelMapper.toModel(colaboradorService.save(colaborador));
-        } catch (DataIntegrityViolationException e) {
+        } catch (ConstraintViolationException e) {
             throw new ConstraintViolationException(e.getMessage(), null, e.getLocalizedMessage());
         } catch (CafeNaoEncontradoException e) {
             throw new NegocioException(e.getMessage(), e);
@@ -73,20 +73,15 @@ public class ColaboradorController {
     public ColaboradorModel update(@PathVariable Long colaboradorId, @RequestBody @Valid ColaboradorInput colaboradorInput) {
 
         try {
+            Colaborador colaborador = colaboradorInputDisassembler.toDomainObject(colaboradorInput);
             Colaborador colaboradorAtual = colaboradorService.findById(colaboradorId);
-            colaboradorInputDisassembler.copyToDomainObject(colaboradorInput, colaboradorAtual);
-            colaboradorAtual = colaboradorService.save(colaboradorAtual);
+            BeanUtils.copyProperties(colaborador, colaboradorAtual);
             return colaboradorModelMapper.toModel(colaboradorService.save(colaboradorAtual));
         } catch (ColaboradorNaoEncontradoException e) {
             throw new NegocioException(e.getMessage(), e);
         }
     }
 
-    @DeleteMapping("/delete/{colaboradorId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long colaboradorId) {
-        colaboradorService.delete(colaboradorId);
-    }
 
     private void merge(Map<String, Object> dadosOrigem, Colaborador colaboradorDestino,
                        HttpServletRequest request) {
@@ -110,5 +105,11 @@ public class ColaboradorController {
             Throwable rootCause = ExceptionUtils.getRootCause(e);
             throw new HttpMessageNotReadableException(e.getMessage(), rootCause, serverHttpRequest);
         }
+    }
+
+    @DeleteMapping("/delete/{colaboradorId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long colaboradorId) {
+        colaboradorService.delete(colaboradorId);
     }
 }
