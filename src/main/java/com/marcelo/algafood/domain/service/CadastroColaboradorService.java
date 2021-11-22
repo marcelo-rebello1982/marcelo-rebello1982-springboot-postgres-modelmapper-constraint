@@ -47,7 +47,6 @@ public class CadastroColaboradorService {
     public void delete(Long colaboradorId) {
         try {
             colaboradorRepository.deleteById(colaboradorId);
-
         } catch (EmptyResultDataAccessException e) {
             throw new ColaboradorNaoEncontradoException(colaboradorId);
 
