@@ -7,6 +7,7 @@ import com.marcelo.algafood.api.assembler.ColaboradorModelMapper;
 import com.marcelo.algafood.api.model.ColaboradorModel;
 import com.marcelo.algafood.api.model.input.ColaboradorInput;
 import com.marcelo.algafood.domain.exception.*;
+import com.marcelo.algafood.domain.model.Cidade;
 import com.marcelo.algafood.domain.model.Colaborador;
 import com.marcelo.algafood.domain.model.Restaurante;
 import com.marcelo.algafood.domain.service.CadastroColaboradorService;
@@ -27,7 +28,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/colaborador")
-public class ColaboradorController {
+public class ColaboradorController  {
 
     @Autowired
     private CadastroColaboradorService colaboradorService;
@@ -52,6 +53,9 @@ public class ColaboradorController {
         return colaboradorModelMapper.toModel(colaboradorResponse);
 
     }
+
+
+
 
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)

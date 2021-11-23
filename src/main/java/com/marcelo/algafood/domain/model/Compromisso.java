@@ -1,24 +1,22 @@
 package com.marcelo.algafood.domain.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.OffsetDateTime;
 
-@Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Entity
+
+@Table
+@Getter
+@Setter
+@Entity(name = "compromisso")
 public class Compromisso extends EntidadeBaseLong {
 
-
-    @CPF
-    @Column(length = 14, nullable = false, unique = true)
-    private String cpf;
 
     @Column(length = 100, nullable = false)
     private String nomeDoResponsavel;

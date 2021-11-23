@@ -29,13 +29,17 @@ public class CadastroColaboradorService {
     @Autowired
     private CadastroCafeService cafeService;
 
+    public List<Colaborador> findAll() {
+        return colaboradorRepository.findAll();
+    }
+
     public Colaborador save(Colaborador colaborador) {
         try {
             return colaboradorRepository.save(colaborador);
         } catch (DataIntegrityViolationException ex) {
             Colaborador response = colaboradorRepository.isExists(colaborador.getCpfcnpj());
             throw new ConstraintViolationException(
-                    String.format("CPF :  JÁ CADASTRADO PARA : " + response.getNome()), null , ex.getCause().toString());
+                    String.format("CPF :  JÁ CADASTRADO PARA : " + response.getNome()), null, ex.getCause().toString());
         }
     }
 
@@ -54,9 +58,5 @@ public class CadastroColaboradorService {
             throw new ColaboradorEmUsoException(
                     String.format(MSG_COLABORADOR_EM_USO, colaboradorId));
         }
-    }
-
-    public List<Colaborador> findAll() {
-        return colaboradorRepository.findAll();
     }
 }

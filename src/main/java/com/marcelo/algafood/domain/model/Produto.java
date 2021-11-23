@@ -10,9 +10,9 @@ import java.math.BigDecimal;
 @Table
 @Getter
 @Setter
-// https://github.com/gilsonsilvati/algaworks-ecommerce/blob/master/src/main/java/com/algaworks/ecommerce/model/Produto.java
-
 public class Produto extends AbstractEntity<Long> {
+
+    // https://github.com/gilsonsilvati/algaworks-ecommerce/blob/master/src/main/java/com/algaworks/ecommerce/model/Produto.java
 
     @Column(nullable = false)
     private String nome;
