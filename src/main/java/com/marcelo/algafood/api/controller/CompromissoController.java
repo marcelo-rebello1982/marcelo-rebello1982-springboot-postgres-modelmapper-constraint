@@ -1,9 +1,6 @@
 package com.marcelo.algafood.api.controller;
 
-import com.marcelo.algafood.domain.exception.ColaboradorNaoEncontradoException;
-import com.marcelo.algafood.domain.exception.CompromissoNaoEncontradoException;
-import com.marcelo.algafood.domain.exception.RecordNotFoundException;
-import com.marcelo.algafood.domain.exception.ServerException;
+import com.marcelo.algafood.domain.exception.*;
 import com.marcelo.algafood.domain.model.Compromisso;
 import com.marcelo.algafood.domain.model.GenericResponse;
 import com.marcelo.algafood.domain.service.CompromissoService;
@@ -19,6 +16,7 @@ import javax.validation.Valid;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -67,19 +65,12 @@ public class CompromissoController {
 
     }
 
-//    @GetMapping("/workerslist")
-//    public List<Worker> getWorkersList(
-//            @RequestParam(name = "lastPollBefore", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)OffsetDateTime lastPollBefore,
-//            @RequestParam(name = "lastPollAfter", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)OffsetDateTime lastPollAfter){
-//        return workerService.getWorkers(lastPollBefore, lastPollAfter);
-//    }
-
-
     @GetMapping("/findByID")
     public ResponseEntity<Compromisso> findByID(@RequestParam(name = "Id") Long compromissoId) {
         Optional<Compromisso> compromisso = compromissoService.findById(compromissoId);
         return compromisso.map(response -> new ResponseEntity<>(response, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ResourceNaoEncontradoException("Compromisso não encontrado : " + compromissoId));
+        //.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PutMapping("/update")
@@ -111,28 +102,4 @@ public class CompromissoController {
                         .build(),
                         HttpStatus.NOT_FOUND));
     }
-
-    //    @DeleteMapping("/delete")
-//    public ResponseEntity<Void> delete(@PathVariable Long id) {
-//        try {
-//            compromissoService.delete(id);
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
-//        }
-//    }
-
-
-    //    @PostMapping("/save")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public Compromisso save(@RequestBody @Valid Compromisso compromisso) {
-//
-//        try {
-//            return compromissoService.save(compromisso);
-//        } catch (CompromissoNaoEncontradoException ex) {
-//            throw new NegocioException(ex.getMessage(), ex);
-//        } catch (ResourceAlreadyExistsException e) {
-//            throw new ResourceAlreadyExistsException(e.getMessage());
-//        }
-//    }
 }
