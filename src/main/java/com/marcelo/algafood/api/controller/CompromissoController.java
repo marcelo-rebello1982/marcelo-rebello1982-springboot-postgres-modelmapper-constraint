@@ -48,7 +48,10 @@ public class CompromissoController {
     @GetMapping("/findByDescricao")
     public ResponseEntity<List<Compromisso>> findByDescricao(@RequestParam(name = "descricao") String descricao) {
         List<Compromisso> compromissos = compromissoService.findByDescricao(descricao);
+        if (compromissos.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<List<Compromisso>>(compromissos, HttpStatus.OK);
+
     }
 
     @GetMapping("/findByID")

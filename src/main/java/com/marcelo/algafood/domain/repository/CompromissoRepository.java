@@ -14,7 +14,7 @@ import java.util.Optional;
 @Repository
 public interface CompromissoRepository extends JpaRepository<Compromisso, Long> {
 
-    @Query("select c from compromisso c where c.descricaoDoCompromisso = ?1")
+    @Query("select c from compromisso c where upper(c.descricaoDoCompromisso) like upper(concat('%', ?1, '%'))")
     List<Compromisso> findBydescricao(String descricao);
 
 //    @Query("select c from compromisso c where c.descricaoDoCompromisso = :name")
