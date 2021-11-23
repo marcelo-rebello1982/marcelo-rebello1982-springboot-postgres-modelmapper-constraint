@@ -1,5 +1,7 @@
 package com.marcelo.algafood.domain.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.marcelo.algafood.core.validation.CustomDateSerializer;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,6 +43,11 @@ public class CompromissoService {
     public List<Compromisso> findByNomeDescricao(String nome, String descricao) {
         return compromissoRepository.findByNomeOrDescricao(nome, descricao);
     }
+
+    public List<Compromisso> findByDataCompromissoOrCadastro(OffsetDateTime dataCompromisso, OffsetDateTime dataCadastro) {
+        return compromissoRepository.findByDataCompromissoOrDataCadastro(dataCompromisso, dataCadastro);
+    }
+
 
 //    public List<Compromisso> findByNomeOrDescricao(String nome, String descricao) {
 //        return compromissoRepository.ffindBynomeDoResponsavelOrdescricaoDoCompromisso(nome, descricao);

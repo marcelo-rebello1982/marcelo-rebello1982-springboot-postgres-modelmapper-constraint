@@ -9,12 +9,14 @@ import com.marcelo.algafood.domain.model.GenericResponse;
 import com.marcelo.algafood.domain.service.CompromissoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +30,7 @@ public class CompromissoController {
     @Autowired
     private CompromissoService compromissoService;
 
-    @GetMapping(value = "/findAll")
+    @GetMapping("/findAll")
     public ResponseEntity<?> findAll(Pageable pageable) {
         return new ResponseEntity<>(compromissoService.findAll(pageable), HttpStatus.OK);
     }
@@ -51,6 +53,28 @@ public class CompromissoController {
 
     }
 
+    @GetMapping("/findByDataCompromissoOrDataCadastro")
+    public ResponseEntity<List<Compromisso>> findByDataCompromisso(@RequestParam(name = "dataDoCompromisso")
+                                                                   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                                                           OffsetDateTime dataDoCompromisso,
+                                                                   @RequestParam(name = "dataDoCadastro")
+                                                                   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                                                           OffsetDateTime dataDoCadastro) {
+        List<Compromisso> compromissos = compromissoService.findByDataCompromissoOrCadastro(dataDoCompromisso, dataDoCadastro);
+        if (compromissos.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<List<Compromisso>>(compromissos, HttpStatus.OK);
+
+    }
+
+//    @GetMapping("/workerslist")
+//    public List<Worker> getWorkersList(
+//            @RequestParam(name = "lastPollBefore", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)OffsetDateTime lastPollBefore,
+//            @RequestParam(name = "lastPollAfter", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)OffsetDateTime lastPollAfter){
+//        return workerService.getWorkers(lastPollBefore, lastPollAfter);
+//    }
+
+
     @GetMapping("/findByID")
     public ResponseEntity<Compromisso> findByID(@RequestParam(name = "Id") Long compromissoId) {
         Optional<Compromisso> compromisso = compromissoService.findById(compromissoId);
@@ -58,7 +82,7 @@ public class CompromissoController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PutMapping(path = "/update")
+    @PutMapping("/update")
     public ResponseEntity<Compromisso> update(@RequestBody Compromisso compromisso) {
         Compromisso toUpdate = compromissoService.save(compromisso);
         if (toUpdate != null) {
