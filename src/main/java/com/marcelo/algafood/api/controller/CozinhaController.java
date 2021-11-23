@@ -27,20 +27,20 @@ public class CozinhaController {
     }
 
     @GetMapping("/{cozinhaId}")
-    public Cozinha buscar(@PathVariable Long cozinhaId) {
-        return cadastroCozinha.buscarOuFalhar(cozinhaId);
+    public Cozinha findById(@PathVariable Long cozinhaId) {
+        return cadastroCozinha.findById(cozinhaId);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Cozinha adicionar(@RequestBody @Valid Cozinha cozinha) {
+    public Cozinha save(@RequestBody @Valid Cozinha cozinha) {
         return cadastroCozinha.salvar(cozinha);
     }
 
     @PutMapping("/{cozinhaId}")
-    public Cozinha atualizar(@PathVariable Long cozinhaId,
-                             @RequestBody @Valid Cozinha cozinha) {
-        Cozinha cozinhaAtual = cadastroCozinha.buscarOuFalhar(cozinhaId);
+    public Cozinha update(@PathVariable Long cozinhaId,
+                          @RequestBody @Valid Cozinha cozinha) {
+        Cozinha cozinhaAtual = cadastroCozinha.findById(cozinhaId);
 
         BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
 
@@ -50,7 +50,7 @@ public class CozinhaController {
     @DeleteMapping("/{cozinhaId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long cozinhaId) {
-        cadastroCozinha.excluir(cozinhaId);
+        cadastroCozinha.delete(cozinhaId);
     }
 
 }

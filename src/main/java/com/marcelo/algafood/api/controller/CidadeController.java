@@ -24,34 +24,34 @@ public class CidadeController {
 	private CadastroCidadeService cadastroCidade;
 	
 	@GetMapping
-	public List<Cidade> listar() {
+	public List<Cidade> findAll() {
 		return cidadeRepository.findAll();
 	}
 	
 	@GetMapping("/{cidadeId}")
 	public Cidade buscar(@PathVariable Long cidadeId) {
-		return cadastroCidade.buscarOuFalhar(cidadeId);
+		return cadastroCidade.findById(cidadeId);
 	}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cidade adicionar(@RequestBody @Valid Cidade cidade) {
+	public Cidade save(@RequestBody @Valid Cidade cidade) {
 		try {
-			return cadastroCidade.salvar(cidade);
+			return cadastroCidade.save(cidade);
 		} catch (EstadoNaoEncontradoException e) {
 			throw new NegocioException(e.getMessage(), e);
 		}
 	}
 	
 	@PutMapping("/{cidadeId}")
-	public Cidade atualizar(@PathVariable Long cidadeId,
+	public Cidade update(@PathVariable Long cidadeId,
 			@RequestBody @Valid Cidade cidade) {
 		try {
-			Cidade cidadeAtual = cadastroCidade.buscarOuFalhar(cidadeId);
+			Cidade cidadeAtual = cadastroCidade.findById(cidadeId);
 			
 			BeanUtils.copyProperties(cidade, cidadeAtual, "id");
 			
-			return cadastroCidade.salvar(cidadeAtual);
+			return cadastroCidade.save(cidadeAtual);
 		} catch (EstadoNaoEncontradoException e) {
 			throw new NegocioException(e.getMessage(), e);
 		}
@@ -59,8 +59,8 @@ public class CidadeController {
 	
 	@DeleteMapping("/{cidadeId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void remover(@PathVariable Long cidadeId) {
-		cadastroCidade.excluir(cidadeId);	
+	public void delete(@PathVariable Long cidadeId) {
+		cadastroCidade.delete(cidadeId);
 	}
 	
 }

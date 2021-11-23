@@ -18,11 +18,11 @@ public class CadastroEstadoService {
 	@Autowired
 	private EstadoRepository estadoRepository;
 	
-	public Estado salvar(Estado estado) {
+	public Estado save(Estado estado) {
 		return estadoRepository.save(estado);
 	}
 	
-	public void excluir(Long estadoId) {
+	public void remover(Long estadoId) {
 		try {
 			estadoRepository.deleteById(estadoId);
 			
@@ -35,7 +35,7 @@ public class CadastroEstadoService {
 		}
 	}
 
-	public Estado buscarOuFalhar(Long estadoId) {
+	public Estado findById(Long estadoId) {
 		return estadoRepository.findById(estadoId)
 			.orElseThrow(() -> new EstadoNaoEncontradoException(estadoId));
 	}

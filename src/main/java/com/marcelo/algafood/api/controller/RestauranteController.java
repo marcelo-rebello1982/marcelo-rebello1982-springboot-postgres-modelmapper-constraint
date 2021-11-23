@@ -70,8 +70,8 @@ public class RestauranteController {
     }
 
     @PutMapping("/{restauranteId}")
-    public Restaurante atualizar(@PathVariable Long restauranteId,
-                                 @RequestBody @Valid RestauranteInput restauranteToEntity) {
+    public Restaurante update(@PathVariable Long restauranteId,
+                              @RequestBody @Valid RestauranteInput restauranteToEntity) {
         try {
             Restaurante restauranteAtual = restauranteService.findById(restauranteId);
 
@@ -91,7 +91,7 @@ public class RestauranteController {
 
         merge(campos, restauranteAtual, request);
 
-        return atualizar(restauranteId, null);
+        return update(restauranteId, null);
     }
 
     private void merge(Map<String, Object> dadosOrigem, Restaurante restauranteDestino,

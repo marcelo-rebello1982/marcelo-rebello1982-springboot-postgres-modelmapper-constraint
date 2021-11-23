@@ -21,7 +21,7 @@ public class CadastroRestauranteService {
     public Restaurante save(Restaurante restaurante) {
         Long cozinhaId = restaurante.getCozinha().getId();
 
-        Cozinha cozinha = cadastroCozinha.buscarOuFalhar(cozinhaId);
+        Cozinha cozinha = cadastroCozinha.findById(cozinhaId);
 
         restaurante.setCozinha(cozinha);
 

@@ -22,17 +22,17 @@ public class CadastroCidadeService {
 	@Autowired
 	private CadastroEstadoService cadastroEstado;
 	
-	public Cidade salvar(Cidade cidade) {
+	public Cidade save(Cidade cidade) {
 		Long estadoId = cidade.getEstado().getId();
 
-		Estado estado = cadastroEstado.buscarOuFalhar(estadoId);
+		Estado estado = cadastroEstado.findById(estadoId);
 		
 		cidade.setEstado(estado);
 		
 		return cidadeRepository.save(cidade);
 	}
 	
-	public void excluir(Long cidadeId) {
+	public void delete(Long cidadeId) {
 		try {
 			cidadeRepository.deleteById(cidadeId);
 			
@@ -45,7 +45,7 @@ public class CadastroCidadeService {
 		}
 	}
 	
-	public Cidade buscarOuFalhar(Long cidadeId) {
+	public Cidade findById(Long cidadeId) {
 		return cidadeRepository.findById(cidadeId)
 			.orElseThrow(() -> new CidadeNaoEncontradaException(cidadeId));
 	}
