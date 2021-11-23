@@ -37,17 +37,14 @@ public class CompromissoController {
     @PostMapping("/save")
     public ResponseEntity<Compromisso> saveAndFlush(@Valid @RequestBody Compromisso compromisso) {
         Compromisso newCompromisso = compromissoService.save(compromisso);
-        if (newCompromisso == null) {
+        if (newCompromisso == null)
             throw new ServerException();
-        } else {
-            return new ResponseEntity<>((newCompromisso), HttpStatus.CREATED);
-        }
+        return new ResponseEntity<Compromisso>((newCompromisso), HttpStatus.CREATED);
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/findByDescricao")
-    public ResponseEntity<List<Compromisso>> findByDescricao(@RequestParam(name = "descricao") String descricao) {
-        List<Compromisso> compromissos = compromissoService.findByDescricao(descricao);
+    @GetMapping("/findByNomeOrDescricao")
+    public ResponseEntity<List<Compromisso>> findByNomeOrDescricao(@RequestParam(name = "descricao") String descricao, @RequestParam(name = "nome") String nome) {
+        List<Compromisso> compromissos = compromissoService.findByNomeDescricao(nome, descricao);
         if (compromissos.isEmpty())
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<List<Compromisso>>(compromissos, HttpStatus.OK);
@@ -57,16 +54,9 @@ public class CompromissoController {
     @GetMapping("/findByID")
     public ResponseEntity<Compromisso> findByID(@RequestParam(name = "Id") Long compromissoId) {
         Optional<Compromisso> compromisso = compromissoService.findById(compromissoId);
-        return compromisso.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+        return compromisso.map(response -> new ResponseEntity<>(response, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-
-//    @GetMapping("/findByNameOrDescricao")
-//    public ResponseEntity<List<Compromisso>> findByNameOrDescricao(@RequestParam(name = "name") String name,
-//                                                                   @RequestParam(name = "descricao") String descricao) {
-//        List<Compromisso> compromissos = compromissoService.findByNomeOrDescricao(name, descricao);
-//        return new ResponseEntity<List<Compromisso>>(compromissos, HttpStatus.OK);
-//    }
 
     @PutMapping(path = "/update")
     public ResponseEntity<Compromisso> update(@RequestBody Compromisso compromisso) {

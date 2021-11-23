@@ -54,9 +54,6 @@ public class ColaboradorController  {
 
     }
 
-
-
-
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
     public ColaboradorModel save(@RequestBody @Valid ColaboradorInput colaboradorInput) {

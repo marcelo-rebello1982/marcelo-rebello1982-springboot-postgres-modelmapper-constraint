@@ -39,8 +39,8 @@ public class CompromissoService {
         return compromissoRepository.findAll(pageable);
     }
 
-    public List<Compromisso> findByDescricao(String descricao) {
-        return compromissoRepository.findBydescricao(descricao);
+    public List<Compromisso> findByNomeDescricao(String nome, String descricao) {
+        return compromissoRepository.findByNomeOrDescricao(nome, descricao);
     }
 
 //    public List<Compromisso> findByNomeOrDescricao(String nome, String descricao) {
