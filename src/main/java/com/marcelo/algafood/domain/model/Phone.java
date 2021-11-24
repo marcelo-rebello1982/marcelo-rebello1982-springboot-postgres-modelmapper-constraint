@@ -28,7 +28,7 @@ public class Phone extends AbstractEntity<Long> {
     private TelephoneType telephoneTypes;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "phone")
+    @ManyToMany(mappedBy = "phoneList")
     private List<Colaborador> colaborador;
 
 

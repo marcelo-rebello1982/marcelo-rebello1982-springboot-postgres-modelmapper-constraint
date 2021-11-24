@@ -1,6 +1,8 @@
 package com.marcelo.algafood.domain.model;
 
 import com.marcelo.algafood.core.validation.Groups;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,13 +14,12 @@ import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 
 @Entity
-@Table
-@Getter
-@Setter
+@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Cidade extends AbstractEntity<Long> {
 
     @NotBlank
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String nome;
 
     @Valid

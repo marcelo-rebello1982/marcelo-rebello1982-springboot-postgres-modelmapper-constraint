@@ -265,10 +265,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<?> handleCpfOrCnpjJaCadastrado(ConstraintViolationException ex, WebRequest request) {
+    public ResponseEntity<?> handleTipoDeObjetoCadastrado(ConstraintViolationException ex, WebRequest request) {
 
         HttpStatus status = HttpStatus.CONFLICT;
-        MessagesTypes messageTypes = MessagesTypes.CPF_CAFE_JA_CADASTRADO;
+        MessagesTypes messageTypes = MessagesTypes.TIPO_DE_OBJETO_JA_CADASTRADO;
         String detail = ex.getLocalizedMessage();
 
         ErrorDetails errorDetails = createErrorDetails(status, messageTypes, ex.getMessage())

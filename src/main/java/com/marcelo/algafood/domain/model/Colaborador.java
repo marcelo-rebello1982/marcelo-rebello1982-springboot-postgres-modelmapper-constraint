@@ -17,12 +17,9 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table
 @GroupSequenceProvider(ColaboradorGroupSequenceProvider.class)
 public class Colaborador extends AbstractEntity<Long> {
 
-    //@Table(uniqueConstraints = {@UniqueConstraint(name = "unq_cpf", columnNames = {"cpf"})})
-    //
 
     @NotBlank
     @Column(nullable = false)
@@ -39,15 +36,21 @@ public class Colaborador extends AbstractEntity<Long> {
     @Column(name = "cpf_cnpj", unique = true)
     private String cpfcnpj;
 
+    @Column(name = "rg", nullable = true)
+    private String rg;
+
+    @Embedded
+    private Endereco endereco;
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "colaborador_cafe", joinColumns = {@JoinColumn(name = "colaborador_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "cafe_id", referencedColumnName = "id")})
-    private List<Cafe> cafe = new ArrayList<Cafe>();
+    private List<Cafe> cafeList = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "colaborador_phone", joinColumns = {@JoinColumn(name = "colaborador_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "phone_id", referencedColumnName = "id")})
-    private List<Phone> phone = new ArrayList<Phone>();
+    private List<Phone> phoneList = new ArrayList<>();
 
 
 //

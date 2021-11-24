@@ -7,7 +7,7 @@ public enum MessagesTypes {
 
 	DADOS_INVALIDOS("/dados-invalidos", "Dados inválidos"),
 	CAFE_JA_CADASTRADO("/dados-invalidos", "ATENÇÃO : TIPO de CAFÉ JÁ CADASTRADO"),
-	CPF_CAFE_JA_CADASTRADO("/dados-invalidos", "ATENÇÃO : TIPO de CAFÉ ou CPF JÁ CADASTRADO"),
+	TIPO_DE_OBJETO_JA_CADASTRADO("/dados-invalidos", "ATENÇÃO : JÁ CADASTRADO"),
 	ERRO_DE_SISTEMA("/erro-de-sistema", "Erro de sistema"),
 	PARAMETRO_INVALIDO("/parametro-invalido", "Parâmetro inválido"),
 	MENSAGEM_INCOMPREENSIVEL("/mensagem-incompreensivel", "Mensagem incompreensível"),

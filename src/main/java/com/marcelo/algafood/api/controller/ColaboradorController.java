@@ -73,14 +73,23 @@ public class ColaboradorController {
     public ColaboradorModel update(@PathVariable Long colaboradorId, @RequestBody @Valid ColaboradorInput colaboradorInput) {
 
         try {
-            Colaborador colaborador = colaboradorInputDisassembler.toDomainObject(colaboradorInput);
+
             Colaborador colaboradorAtual = colaboradorService.findById(colaboradorId);
-            BeanUtils.copyProperties(colaborador, colaboradorAtual,"id");
+            colaboradorInputDisassembler.copyToDomainObject(colaboradorInput, colaboradorAtual);
             return colaboradorModelAssembler.toModel(colaboradorService.save(colaboradorAtual));
         } catch (ColaboradorNaoEncontradoException e) {
             throw new NegocioException(e.getMessage(), e);
         }
     }
+
+    @PatchMapping("/{colaboradorId}")
+    public ColaboradorModel updatePatch(@PathVariable Long colaboradorId,
+                                        @RequestBody Map<String, Object> campos, HttpServletRequest request) {
+        Colaborador colaboradorAtual = colaboradorService.findById(colaboradorId);
+        merge(campos, colaboradorAtual, request);
+        return update(colaboradorId, null);
+    }
+
 
     private void merge(Map<String, Object> dadosOrigem, Colaborador colaboradorDestino,
                        HttpServletRequest request) {

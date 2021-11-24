@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+// https://prateek-ashtikar512.medium.com/dynamic-spring-projection-dbb4d360adf7
+// testasr interFACE
+
 @Service
 public class CadastroColaboradorService {
 
@@ -39,7 +42,7 @@ public class CadastroColaboradorService {
         } catch (DataIntegrityViolationException ex) {
             Colaborador response = colaboradorRepository.isExists(colaborador.getCpfcnpj());
             throw new ConstraintViolationException(
-                    String.format("CPF :  JÁ CADASTRADO PARA : " + response.getNome()), null, ex.getCause().toString());
+                    String.format("CPF " + colaborador.getCpfcnpj() + " JÁ CADASTRADO PARA : " + response.getNome()), null, ex.getCause().toString());
         }
     }
 

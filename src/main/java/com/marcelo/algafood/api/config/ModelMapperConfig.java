@@ -1,4 +1,4 @@
-package com.algaworks.algafood.core.modelmapper;
+package com.marcelo.algafood.api.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -11,5 +11,4 @@ public class ModelMapperConfig {
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
-	
 }

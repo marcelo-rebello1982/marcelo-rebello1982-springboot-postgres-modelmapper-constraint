@@ -3,7 +3,7 @@ package com.marcelo.algafood.api.controller;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.marcelo.algafood.api.assembler.RestauranteInputDisassembler;
-import com.marcelo.algafood.api.assembler.RestauranteToModelMapper;
+import com.marcelo.algafood.api.assembler.RestauranteModelAssembler;
 import com.marcelo.algafood.api.model.RestauranteModel;
 import com.marcelo.algafood.api.model.input.RestauranteInput;
 import com.marcelo.algafood.domain.exception.CozinhaNaoEncontradaException;
@@ -12,7 +12,6 @@ import com.marcelo.algafood.domain.model.Restaurante;
 import com.marcelo.algafood.domain.repository.RestauranteRepository;
 import com.marcelo.algafood.domain.service.CadastroRestauranteService;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -38,7 +37,7 @@ public class RestauranteController {
     private CadastroRestauranteService restauranteService;
 
     @Autowired
-    private RestauranteToModelMapper restuaranteToModelMapper;
+    private RestauranteModelAssembler restauranteModelAssembler;
 
     @Autowired
     private RestauranteInputDisassembler restauranteInputDisassembler;
@@ -46,7 +45,7 @@ public class RestauranteController {
 
     @GetMapping("/findAll")
     public List<RestauranteModel> findAll() {
-        return restuaranteToModelMapper
+        return restauranteModelAssembler
                 .toCollectionModel(restauranteService
                         .findAll());
     }
@@ -54,38 +53,35 @@ public class RestauranteController {
     @GetMapping("/findByID/{restauranteId}")
     public RestauranteModel findById(@PathVariable Long restauranteId) {
         Restaurante restaurante = restauranteService.findById(restauranteId);
-        return restuaranteToModelMapper.toModel(restaurante);
+        return restauranteModelAssembler.toModel(restaurante);
     }
 
-    @PostMapping
+    @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
     public RestauranteModel save(@RequestBody @Valid RestauranteInput restauranteInput) {
 
         try {
             Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
-            return restuaranteToModelMapper.toModel(restauranteService.save(restaurante));
+            return restauranteModelAssembler.toModel(restauranteService.save(restaurante));
         } catch (CozinhaNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
     }
 
-    @PutMapping("/{restauranteId}")
-    public Restaurante update(@PathVariable Long restauranteId,
-                              @RequestBody @Valid RestauranteInput restauranteToEntity) {
+    @PutMapping("/update/{restauranteId}")
+    public RestauranteModel update(@PathVariable Long restauranteId,
+                              @RequestBody @Valid RestauranteInput restauranteInput) {
         try {
             Restaurante restauranteAtual = restauranteService.findById(restauranteId);
-
-            BeanUtils.copyProperties(restauranteToEntity, restauranteAtual,
-                    "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
-
-            return restauranteService.save(restauranteAtual);
+            restauranteInputDisassembler.copyToDomainObject(restauranteInput, restauranteAtual);
+            return restauranteModelAssembler.toModel(restauranteService.save(restauranteAtual));
         } catch (CozinhaNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
     }
 
-    @PatchMapping("/{restauranteId}")
-    public Restaurante atualizarParcial(@PathVariable Long restauranteId,
+    @PatchMapping("/patch/{restauranteId}")
+    public RestauranteModel atualizarParcial(@PathVariable Long restauranteId,
                                         @RequestBody Map<String, Object> campos, HttpServletRequest request) {
         Restaurante restauranteAtual = restauranteService.findById(restauranteId);
 

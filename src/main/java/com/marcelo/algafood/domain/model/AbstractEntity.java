@@ -10,10 +10,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 
-
-@MappedSuperclass
 @Getter
 @Setter
+@MappedSuperclass
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public abstract class AbstractEntity<Long> implements Serializable {
 
@@ -35,16 +34,4 @@ public abstract class AbstractEntity<Long> implements Serializable {
     @Version
     @Column(name = "version")
     private int version;
-
-
-    //    @JsonIgnore
-//    @CreationTimestamp
-//    @Column(nullable = false, columnDefinition = "timestamp")
-//    private LocalDateTime dataCadastro;
-//
-//    @JsonIgnore
-//    @UpdateTimestamp
-//    @Column(nullable = false, columnDefinition = "timestamp")
-//    private LocalDateTime dataAtualizacao;
-
 }

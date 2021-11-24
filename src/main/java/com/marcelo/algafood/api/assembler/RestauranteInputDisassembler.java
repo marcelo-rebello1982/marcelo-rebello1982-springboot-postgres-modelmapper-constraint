@@ -13,13 +13,13 @@ public class RestauranteInputDisassembler {
     @Autowired
     private ModelMapper modelMapper;
 
-    public Restaurante toDomainObject(RestauranteInput restauranteToEntity) {
-        return modelMapper.map(restauranteToEntity, Restaurante.class);
+    public Restaurante toDomainObject(RestauranteInput restauranteInput) {
+        return modelMapper.map(restauranteInput, Restaurante.class);
     }
 
-    public void copyToDomainObject(RestauranteInput restauranteToEntity, Restaurante restaurante) {
+    public void copyToDomainObject(RestauranteInput restauranteInput, Restaurante restaurante) {
         // Para evitar org.hibernate.HibernateException:
         restaurante.setCozinha(new Cozinha());
-        modelMapper.map(restauranteToEntity, restaurante);
+        modelMapper.map(restauranteInput, restaurante);
     }
 }

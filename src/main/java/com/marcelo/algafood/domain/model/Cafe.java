@@ -20,7 +20,7 @@ public class Cafe extends AbstractEntity<Long> {
     private String tipo;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "cafe")
+    @ManyToMany(mappedBy = "cafeList")
     private List<Colaborador> colaborador;
 
 

@@ -14,13 +14,13 @@ import java.util.List;
 @Getter
 public class ColaboradorModel {
 
-    private Integer id;
+    private Long id; // retorna na consulta findById
     private String nome;
     private String cpfcnpj;
     private OffsetDateTime dataCadastro;
     private OffsetDateTime dataAtualizacao;
     private ColaboradorType colaboradorType;
-    private List<Cafe> cafe = new ArrayList<Cafe>();
-    private List<Phone> phone = new ArrayList<Phone>();
+    private List<Cafe> cafeList = new ArrayList<Cafe>();
+    private List<Phone> phoneList = new ArrayList<Phone>();
 
 }
