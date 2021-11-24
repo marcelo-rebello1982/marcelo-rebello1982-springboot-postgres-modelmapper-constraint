@@ -13,7 +13,6 @@ public class RestauranteModel {
     private Long id;
     private String nome;
     private String cnpj;
-
     private Cozinha cozinha;
     private Endereco endereco;
 }

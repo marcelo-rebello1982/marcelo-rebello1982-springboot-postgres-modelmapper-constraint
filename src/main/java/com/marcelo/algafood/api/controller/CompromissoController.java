@@ -1,6 +1,7 @@
 package com.marcelo.algafood.api.controller;
 
-import com.marcelo.algafood.domain.exception.*;
+import com.marcelo.algafood.domain.exception.ResourceNaoEncontradoException;
+import com.marcelo.algafood.domain.exception.ServerException;
 import com.marcelo.algafood.domain.model.Compromisso;
 import com.marcelo.algafood.domain.model.GenericResponse;
 import com.marcelo.algafood.domain.service.CompromissoService;
@@ -16,7 +17,6 @@ import javax.validation.Valid;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController

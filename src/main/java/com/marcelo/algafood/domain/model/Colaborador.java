@@ -49,11 +49,7 @@ public class Colaborador extends AbstractEntity<Long> {
             inverseJoinColumns = {@JoinColumn(name = "phone_id", referencedColumnName = "id")})
     private List<Phone> phone = new ArrayList<Phone>();
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinTable(name = "colaborador_phone", joinColumns = {@JoinColumn(name = "colaborador_Id",
-//            referencedColumnName = "Id")}, inverseJoinColumns = {@JoinColumn(name = "phone_Id",
-//            referencedColumnName = "Id")})
-//    private Phone phone;
+
 //
 //    @OneToMany(mappedBy = "colaborador", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 //    @Column(name = "PHONES")

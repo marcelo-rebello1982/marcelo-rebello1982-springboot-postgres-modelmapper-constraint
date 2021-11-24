@@ -3,7 +3,7 @@ package com.marcelo.algafood.api.controller;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.marcelo.algafood.api.assembler.RestauranteInputDisassembler;
-import com.marcelo.algafood.api.assembler.RestuaranteToModelMapper;
+import com.marcelo.algafood.api.assembler.RestauranteToModelMapper;
 import com.marcelo.algafood.api.model.RestauranteModel;
 import com.marcelo.algafood.api.model.input.RestauranteInput;
 import com.marcelo.algafood.domain.exception.CozinhaNaoEncontradaException;
@@ -38,7 +38,7 @@ public class RestauranteController {
     private CadastroRestauranteService restauranteService;
 
     @Autowired
-    private RestuaranteToModelMapper restuaranteToModelMapper;
+    private RestauranteToModelMapper restuaranteToModelMapper;
 
     @Autowired
     private RestauranteInputDisassembler restauranteInputDisassembler;

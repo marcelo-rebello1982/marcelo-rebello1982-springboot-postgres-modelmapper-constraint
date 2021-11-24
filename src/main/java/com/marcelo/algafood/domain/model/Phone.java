@@ -9,9 +9,6 @@ import javax.persistence.*;
 import java.util.List;
 
 
-//@NamedQueries({
-//        @NamedQuery(name = "phone.findAll", query = "SELECT p FROM PHONE p"),
-//        @NamedQuery(name = "phone.findNameByID", query = "SELECT p FROM PHONE p WHERE p.id = :colaborador_id")})
 @Entity
 @Table
 @Getter

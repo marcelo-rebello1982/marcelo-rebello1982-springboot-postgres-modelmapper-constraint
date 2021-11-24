@@ -22,7 +22,7 @@ public class ColaboradorInput extends AbstractEntity<Long> {
     private OffsetDateTime dataAtualizacao;
     private ColaboradorType colaboradorType;
     private List<Cafe> cafe = new ArrayList<Cafe>();
-    private List<Phone> phone = new ArrayList<Phone>();
+    private List<Phone> phoneList = new ArrayList<Phone>();
 
 
 }

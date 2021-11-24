@@ -3,11 +3,10 @@ package com.marcelo.algafood.api.controller;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.marcelo.algafood.api.assembler.ColaboradorInputDisassembler;
-import com.marcelo.algafood.api.assembler.ColaboradorModelMapper;
+import com.marcelo.algafood.api.assembler.ColaboradorModelAssembler;
 import com.marcelo.algafood.api.model.ColaboradorModel;
 import com.marcelo.algafood.api.model.input.ColaboradorInput;
 import com.marcelo.algafood.domain.exception.*;
-import com.marcelo.algafood.domain.model.Cidade;
 import com.marcelo.algafood.domain.model.Colaborador;
 import com.marcelo.algafood.domain.model.Restaurante;
 import com.marcelo.algafood.domain.service.CadastroColaboradorService;
@@ -28,13 +27,13 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/colaborador")
-public class ColaboradorController  {
+public class ColaboradorController {
 
     @Autowired
     private CadastroColaboradorService colaboradorService;
 
     @Autowired
-    private ColaboradorModelMapper colaboradorModelMapper;
+    private ColaboradorModelAssembler colaboradorModelAssembler;
 
     @Autowired
     private ColaboradorInputDisassembler colaboradorInputDisassembler;
@@ -42,15 +41,15 @@ public class ColaboradorController  {
 
     @GetMapping("/findAll")
     public List<ColaboradorModel> findAll() {
-        return colaboradorModelMapper
+        return colaboradorModelAssembler
                 .toCollectionModel(colaboradorService
                         .findAll());
     }
 
-    @GetMapping("/findByID/{colaboradorId}")
+    @GetMapping("/findById/{colaboradorId}")
     public ColaboradorModel findById(@PathVariable Long colaboradorId) {
         Colaborador colaboradorResponse = colaboradorService.findById(colaboradorId);
-        return colaboradorModelMapper.toModel(colaboradorResponse);
+        return colaboradorModelAssembler.toModel(colaboradorResponse);
 
     }
 
@@ -60,7 +59,7 @@ public class ColaboradorController  {
 
         try {
             Colaborador colaborador = colaboradorInputDisassembler.toDomainObject(colaboradorInput);
-            return colaboradorModelMapper.toModel(colaboradorService.save(colaborador));
+            return colaboradorModelAssembler.toModel(colaboradorService.save(colaborador));
         } catch (ConstraintViolationException e) {
             throw new ConstraintViolationException(e.getMessage(), null, e.getLocalizedMessage());
         } catch (CafeNaoEncontradoException e) {
@@ -76,13 +75,12 @@ public class ColaboradorController  {
         try {
             Colaborador colaborador = colaboradorInputDisassembler.toDomainObject(colaboradorInput);
             Colaborador colaboradorAtual = colaboradorService.findById(colaboradorId);
-            BeanUtils.copyProperties(colaborador, colaboradorAtual);
-            return colaboradorModelMapper.toModel(colaboradorService.save(colaboradorAtual));
+            BeanUtils.copyProperties(colaborador, colaboradorAtual,"id");
+            return colaboradorModelAssembler.toModel(colaboradorService.save(colaboradorAtual));
         } catch (ColaboradorNaoEncontradoException e) {
             throw new NegocioException(e.getMessage(), e);
         }
     }
-
 
     private void merge(Map<String, Object> dadosOrigem, Colaborador colaboradorDestino,
                        HttpServletRequest request) {
