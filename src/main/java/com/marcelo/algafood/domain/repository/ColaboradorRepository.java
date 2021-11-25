@@ -1,20 +1,10 @@
 package com.marcelo.algafood.domain.repository;
 
-import com.marcelo.algafood.domain.enumeration.ColaboradorType;
-import com.marcelo.algafood.domain.model.CnpjGroup;
 import com.marcelo.algafood.domain.model.Colaborador;
-import com.marcelo.algafood.domain.model.CpfGroup;
-import org.hibernate.validator.constraints.br.CNPJ;
-import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Repository

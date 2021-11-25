@@ -31,7 +31,7 @@ public abstract class AbstractEntity<Long> implements Serializable {
     @Column(nullable = false, columnDefinition = "timestamp")
     private OffsetDateTime dataAtualizacao;
 
-    @Version
-    @Column(name = "version")
-    private int version;
+//    @Version
+//    @Column(name = "version")
+//    private int version;
 }

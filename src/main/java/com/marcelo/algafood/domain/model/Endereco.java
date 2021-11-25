@@ -8,9 +8,6 @@ import javax.persistence.*;
 @Embeddable
 public class Endereco {
 
-	@Column(name = "cep")
-	private String cep;
-
 	@Column(name = "logradouro")
 	private String logradouro;
 
@@ -22,8 +19,10 @@ public class Endereco {
 	
 	@Column(name = "bairro")
 	private String bairro;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
+
+	@Column(name = "cep")
+	private String cep;
+
 	@JoinColumn(name = "endereco_cidade_id")
 	private Cidade cidade;
 	

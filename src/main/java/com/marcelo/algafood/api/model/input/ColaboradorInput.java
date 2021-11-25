@@ -1,30 +1,41 @@
 package com.marcelo.algafood.api.model.input;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.marcelo.algafood.domain.enumeration.ColaboradorType;
-import com.marcelo.algafood.domain.model.*;
+import com.marcelo.algafood.domain.model.AbstractEntity;
+import com.marcelo.algafood.domain.model.Cafe;
+import com.marcelo.algafood.domain.model.ColaboradorGroupSequenceProvider;
+import com.marcelo.algafood.domain.model.Phone;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.br.CNPJ;
-import org.hibernate.validator.constraints.br.CPF;
+import org.hibernate.validator.group.GroupSequenceProvider;
 
-import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+//@GroupSequenceProvider(ColaboradorGroupSequenceProvider.class)
+
 @Setter
 @Getter
-// @GroupSequenceProvider(ColaboradorGroupSequenceProvider.class)
 public class ColaboradorInput extends AbstractEntity<Long> {
 
+    @NotBlank
     private String nome;
-    private ColaboradorType colaboradorType;
+
+    @NotBlank
     private String cpfcnpj;
+
+    @NotBlank
     private String rg;
-    private Endereco endereco;
+
+    private ColaboradorType colaboradorType;
+
+    @Valid
+    @NotNull
+    private EnderecoInput enderecoInput;
+
     private List<Cafe> cafeList = new ArrayList<>();
     private List<Phone> phoneList = new ArrayList<>();
 

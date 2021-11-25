@@ -8,7 +8,6 @@ import org.hibernate.validator.constraints.br.CPF;
 import org.hibernate.validator.group.GroupSequenceProvider;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,16 +20,9 @@ import java.util.List;
 public class Colaborador extends AbstractEntity<Long> {
 
 
-    @NotBlank
     @Column(nullable = false)
     private String nome;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "colaborador_type")
-    private ColaboradorType colaboradorType;
-
-    @NotBlank
     @CPF(groups = CpfGroup.class)
     @CNPJ(groups = CnpjGroup.class)
     @Column(name = "cpf_cnpj", unique = true)
@@ -38,6 +30,11 @@ public class Colaborador extends AbstractEntity<Long> {
 
     @Column(name = "rg", nullable = true)
     private String rg;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "colaborador_type")
+    private ColaboradorType colaboradorType;
 
     @Embedded
     private Endereco endereco;

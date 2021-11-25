@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
@@ -16,6 +17,7 @@ import java.util.List;
 @Setter
 public class Cafe extends AbstractEntity<Long> {
 
+    @NotBlank
     @Column(name = "tipo")
     private String tipo;
 

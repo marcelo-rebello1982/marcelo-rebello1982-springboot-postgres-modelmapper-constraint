@@ -1,7 +1,6 @@
 package com.marcelo.algafood.domain.repository;
 
 import com.marcelo.algafood.domain.model.Cidade;
-import com.marcelo.algafood.domain.model.Estado;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

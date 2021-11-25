@@ -1,7 +1,5 @@
 package com.marcelo.algafood.api.controller;
 
-import com.marcelo.algafood.domain.exception.ConstraintViolationException;
-import com.marcelo.algafood.domain.exception.DataIntegrityViolationException;
 import com.marcelo.algafood.domain.exception.ResourceAlreadyExistsException;
 import com.marcelo.algafood.domain.model.Estado;
 import com.marcelo.algafood.domain.repository.EstadoRepository;
