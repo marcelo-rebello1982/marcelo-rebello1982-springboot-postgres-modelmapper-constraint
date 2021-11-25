@@ -40,7 +40,7 @@ public class CafeController {
 
     @PutMapping("/update/{cafeId}")
     public Cafe update(@PathVariable Long cafeId, @RequestBody @Valid Cafe cafe) {
-        Cafe cafeAtual = cafeService.findByID(cafeId);
+        Cafe cafeAtual = cafeService.findById(cafeId);
         BeanUtils.copyProperties(cafe, cafeAtual, "id");
         return cafeService.save(cafeAtual);
     }

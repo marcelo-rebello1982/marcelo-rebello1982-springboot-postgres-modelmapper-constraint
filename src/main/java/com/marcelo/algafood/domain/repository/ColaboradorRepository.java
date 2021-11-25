@@ -1,11 +1,13 @@
 package com.marcelo.algafood.domain.repository;
 
 import com.marcelo.algafood.domain.model.Colaborador;
+import com.marcelo.algafood.domain.model.Cozinha;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ColaboradorRepository extends CustomJpaRepository<Colaborador, Long> {
@@ -15,7 +17,8 @@ public interface ColaboradorRepository extends CustomJpaRepository<Colaborador, 
     @Query("select c from Colaborador c where c.cpfcnpj = :cpfcnpj")
     Colaborador isExists(@Param("cpfcnpj") String cpfcnpj);
 
-    <T> List<T> findBy(String nome, Class<T> type);
+    @Query("select c from Colaborador c where c.nome = ?1")
+    <T> List<T> findByNome(String nome, Class<T> type);
 
     @Query("select c from Colaborador c where c.nome = :name or c.cpfcnpj = :type")
     <T> T findByNomeOrCpfcnpj(@Param("name") String name, Class<T> type);

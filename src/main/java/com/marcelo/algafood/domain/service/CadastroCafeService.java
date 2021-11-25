@@ -9,6 +9,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CadastroCafeService {
 
@@ -21,11 +23,6 @@ public class CadastroCafeService {
 
     public Cafe save(Cafe cafe) {
         return cafeRepository.save(cafe);
-    }
-
-    public Cafe findByID(Long cafeId) {
-        return cafeRepository.findById(cafeId)
-                .orElseThrow(() -> new CafeNaoEncontradoException(cafeId));
     }
 
     public void delete(Long cafeId) {
@@ -44,4 +41,5 @@ public class CadastroCafeService {
         return cafeRepository.findById(cafeId)
                 .orElseThrow(() -> new CafeNaoEncontradoException(cafeId));
     }
+
 }
