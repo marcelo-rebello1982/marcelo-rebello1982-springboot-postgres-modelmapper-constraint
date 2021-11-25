@@ -72,7 +72,6 @@ public class ColaboradorController {
     public ColaboradorModel update(@PathVariable Long colaboradorId, @RequestBody @Valid ColaboradorInput colaboradorInput) {
 
         try {
-
             Colaborador colaboradorAtual = colaboradorService.findById(colaboradorId);
             colaboradorInputDisassembler.copyToDomainObject(colaboradorInput, colaboradorAtual);
             return colaboradorModelAssembler.toModel(colaboradorService.save(colaboradorAtual));
