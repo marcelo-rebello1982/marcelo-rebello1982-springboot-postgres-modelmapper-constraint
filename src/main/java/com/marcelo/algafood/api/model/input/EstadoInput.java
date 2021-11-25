@@ -17,7 +17,6 @@ public class EstadoInput extends AbstractEntity<Long> {
 
     private Long id;
 
-    @JsonIgnore
     @NotBlank
     private String uf;
 

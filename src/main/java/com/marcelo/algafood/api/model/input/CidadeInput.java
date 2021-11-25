@@ -19,7 +19,6 @@ public class CidadeInput extends AbstractEntity<Long> {
 
     private Long id;
 
-    @JsonIgnore
     @NotBlank
     private String nome;
 

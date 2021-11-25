@@ -23,6 +23,7 @@ import javax.validation.Valid;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(value = "/colaborador")
@@ -97,13 +98,10 @@ public class ColaboradorController {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, true);
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
-
             Colaborador colaboradorOrigem = objectMapper.convertValue(dadosOrigem, Colaborador.class);
-
             dadosOrigem.forEach((nomePropriedade, valorPropriedade) -> {
                 Field field = ReflectionUtils.findField(Restaurante.class, nomePropriedade);
-                field.setAccessible(true);
-
+                Objects.requireNonNull(field).setAccessible(true);
                 Object novoValor = ReflectionUtils.getField(field, colaboradorOrigem);
                 ReflectionUtils.setField(field, colaboradorDestino, novoValor);
             });

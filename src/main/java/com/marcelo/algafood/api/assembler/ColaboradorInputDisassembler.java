@@ -22,7 +22,7 @@ public class ColaboradorInputDisassembler {
     }
 
     public void copyToDomainObject(ColaboradorInput colaboradorInput, Colaborador colaborador) {
-        // para evitar  Colaborador was altered from 1 to 2
+        // para evitar  Colaborador was altered from 1 to 2 , NÃO RETIRAR LINHAS 26,27
         List<Cafe> cafeList = new ArrayList<Cafe>();
         List<Phone> phoneList = new ArrayList<Phone>();
         colaborador.setCafeList(cafeList);
