@@ -38,12 +38,12 @@ public class CompromissoController {
     public ResponseEntity<Compromisso> saveAndFlush(@Valid @RequestBody Compromisso compromisso) {
         Compromisso newCompromisso = compromissoService.save(compromisso);
         if (newCompromisso == null)
-            throw new ServerException();
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return new ResponseEntity<Compromisso>((newCompromisso), HttpStatus.CREATED);
     }
 
     @GetMapping("/findByNomeOrDescricao")
-    public ResponseEntity<List<Compromisso>> findByNomeOrDescricao(@RequestParam(name = "descricao") String descricao, @RequestParam(name = "nome") String nome) {
+    public ResponseEntity<List<Compromisso>> findByNomeOrDescricao(@RequestParam(name = "descricao", required = false) String descricao, @RequestParam(name = "nome", required = false) String nome) {
         List<Compromisso> compromissos = compromissoService.findByNomeDescricao(nome, descricao);
         if (compromissos.isEmpty())
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -70,7 +70,6 @@ public class CompromissoController {
         Optional<Compromisso> compromisso = compromissoService.findById(compromissoId);
         return compromisso.map(response -> new ResponseEntity<>(response, HttpStatus.OK))
                 .orElseThrow(() -> new ResourceNaoEncontradoException("Compromisso não encontrado : " + compromissoId));
-        //.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PutMapping("/update")
@@ -79,7 +78,7 @@ public class CompromissoController {
         if (toUpdate != null) {
             return new ResponseEntity<Compromisso>(toUpdate, HttpStatus.CREATED);
         } else {
-            throw new ServerException();
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 
