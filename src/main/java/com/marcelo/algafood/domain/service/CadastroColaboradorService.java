@@ -60,9 +60,9 @@ public class CadastroColaboradorService {
                 throw new ResourceAlreadyExistsException("TIPO " + cafe.getTipo() + " JÁ CADASTRADO");
             }
         } catch (DataIntegrityViolationException ex) {
-            Colaborador returned = colaboradorRepository.isExists(colaborador.getCpfcnpj());
+            Colaborador duplicated = colaboradorRepository.isExists(colaborador.getCpfcnpj());
             throw new ConstraintViolationException(
-                    String.format("CPF " + colaborador.getCpfcnpj() + " JÁ CADASTRADO PARA : " + returned.getNome()), null, ex.getCause().toString());
+                    String.format("CPF " + colaborador.getCpfcnpj() + " JÁ CADASTRADO PARA : " + duplicated.getNome()), null, ex.getCause().toString());
         }
         return null;
     }
