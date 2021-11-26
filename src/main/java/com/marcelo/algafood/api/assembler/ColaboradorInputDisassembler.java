@@ -22,9 +22,9 @@ public class ColaboradorInputDisassembler {
     }
 
     public void copyToDomainObject(ColaboradorInput colaboradorInput, Colaborador colaborador) {
-        // para evitar  Colaborador was altered from 1 to 2 , NÃO RETIRAR LINHAS 26,27
-        List<Cafe> cafeList = new ArrayList<Cafe>();
-        List<Phone> phoneList = new ArrayList<Phone>();
+        // para evitar identifier of an instance  Colaborador was altered from 1 to 2 , NÃO RETIRAR LINHAS 26/29
+        List<Cafe> cafeList = new ArrayList<>();
+        List<Phone> phoneList = new ArrayList<>();
         colaborador.setCafeList(cafeList);
         colaborador.setPhoneList(phoneList);
         modelMapper.map(colaboradorInput, colaborador);

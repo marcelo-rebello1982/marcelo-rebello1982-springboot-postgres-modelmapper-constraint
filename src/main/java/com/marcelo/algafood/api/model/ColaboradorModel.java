@@ -18,11 +18,11 @@ public class ColaboradorModel {
     private Long id; // retorna na consulta findById
     private String nome;
     private String cpfcnpj;
-    private Endereco endereco;
+    private EnderecoModel endereco;
     private ColaboradorType colaboradorType;
     private OffsetDateTime dataCadastro;
     private OffsetDateTime dataAtualizacao;
-    private List<Cafe> cafeList = new ArrayList<Cafe>();
-    private List<Phone> phoneList = new ArrayList<Phone>();
+    private List<Cafe> cafeList = new ArrayList<>();
+    private List<Phone> phoneList = new ArrayList<>();
 
 }

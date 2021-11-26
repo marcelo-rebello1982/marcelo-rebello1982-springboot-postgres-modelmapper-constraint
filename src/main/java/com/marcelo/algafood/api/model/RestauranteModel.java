@@ -14,5 +14,5 @@ public class RestauranteModel {
     private String nome;
     private String cnpj;
     private Cozinha cozinha;
-    private Endereco endereco;
+    private EnderecoModel endereco;
 }

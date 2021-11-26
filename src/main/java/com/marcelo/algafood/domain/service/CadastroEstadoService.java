@@ -24,9 +24,9 @@ public class CadastroEstadoService {
             return estadoRepository.save(estado);
         } catch (DataIntegrityViolationException ex) {
             //   } catch (ConstraintViolationException ex) {
-            Estado response = estadoRepository.isExists(estado.getUf());
+            Estado response = estadoRepository.isExists(estado.getNome());
             throw new ConstraintViolationException(
-                    String.format("UF " + response.getUf() + " JÁ CADASTRADO. "), null, ex.getCause().toString());
+                    String.format("UF " + response.getNome() + " JÁ CADASTRADO. "), null, ex.getCause().toString());
         }
     }
 

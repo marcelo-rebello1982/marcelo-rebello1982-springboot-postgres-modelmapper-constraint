@@ -13,6 +13,6 @@ public class EstadoInput extends AbstractEntity<Long> {
     private Long id;
 
     @NotBlank
-    private String uf;
+    private String nome;
 
 }

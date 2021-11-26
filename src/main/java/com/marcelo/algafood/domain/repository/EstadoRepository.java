@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EstadoRepository extends JpaRepository<Estado, Long> {
 
-    @Query("select e from Estado e where e.uf = :uf")
-    Estado isExists(@Param("uf") String uf);
+    @Query("select e from Estado e where e.nome = :nome")
+    Estado isExists(@Param("nome") String nome);
 
 }

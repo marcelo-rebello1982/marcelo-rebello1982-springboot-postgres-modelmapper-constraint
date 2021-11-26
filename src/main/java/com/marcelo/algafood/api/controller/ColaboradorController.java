@@ -57,6 +57,7 @@ public class ColaboradorController {
     @ResponseStatus(HttpStatus.CREATED)
     public ColaboradorModel save(@RequestBody @Valid ColaboradorInput colaboradorInput) {
 
+
         try {
             Colaborador colaborador = colaboradorInputDisassembler.toDomainObject(colaboradorInput);
             return colaboradorModelAssembler.toModel(colaboradorService.save(colaborador));
@@ -70,10 +71,10 @@ public class ColaboradorController {
     }
 
     @PutMapping("/update/{colaboradorId}")
-    public ColaboradorModel update(@PathVariable Long colaboradorId, @RequestBody @Valid ColaboradorInput colaboradorInput) {
+    public ColaboradorModel update(@PathVariable Long Id, @RequestBody @Valid ColaboradorInput colaboradorInput) {
 
         try {
-            Colaborador colaboradorAtual = colaboradorService.findById(colaboradorId);
+            Colaborador colaboradorAtual = colaboradorService.findById(Id);
             colaboradorInputDisassembler.copyToDomainObject(colaboradorInput, colaboradorAtual);
             return colaboradorModelAssembler.toModel(colaboradorService.save(colaboradorAtual));
         } catch (ColaboradorNaoEncontradoException e) {

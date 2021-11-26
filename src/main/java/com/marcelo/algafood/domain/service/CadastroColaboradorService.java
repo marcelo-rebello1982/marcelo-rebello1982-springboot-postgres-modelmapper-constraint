@@ -1,12 +1,15 @@
 package com.marcelo.algafood.domain.service;
 
 
+import com.marcelo.algafood.api.controller.CidadeController;
 import com.marcelo.algafood.domain.exception.ColaboradorEmUsoException;
 import com.marcelo.algafood.domain.exception.ColaboradorNaoEncontradoException;
 import com.marcelo.algafood.domain.exception.ConstraintViolationException;
 import com.marcelo.algafood.domain.exception.ResourceAlreadyExistsException;
 import com.marcelo.algafood.domain.model.Cafe;
+import com.marcelo.algafood.domain.model.Cidade;
 import com.marcelo.algafood.domain.model.Colaborador;
+import com.marcelo.algafood.domain.model.Endereco;
 import com.marcelo.algafood.domain.repository.CafeRepository;
 import com.marcelo.algafood.domain.repository.ColaboradorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +37,8 @@ public class CadastroColaboradorService {
     @Autowired
     private ColaboradorRepository colaboradorRepository;
 
+    @Autowired
+    private CidadeController cidadeController;
 
     @Autowired
     private CadastroCafeService cafeService;
@@ -57,7 +62,7 @@ public class CadastroColaboradorService {
                         .collect(Collectors.toList());
                 if (cafesList.isEmpty())
                     return colaboradorRepository.save(colaborador);
-                throw new ResourceAlreadyExistsException("TIPO " + cafe.getTipo() + " JÁ CADASTRADO");
+                throw new ResourceAlreadyExistsException(" TIPO " + cafe.getTipo() + " JÁ CADASTRADO ");
             }
         } catch (DataIntegrityViolationException ex) {
             Colaborador duplicated = colaboradorRepository.isExists(colaborador.getCpfcnpj());
