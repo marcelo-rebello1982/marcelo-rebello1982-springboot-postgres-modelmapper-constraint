@@ -3,14 +3,17 @@ package com.marcelo.algafood;
 import com.marcelo.algafood.api.util.DateConverter;
 import com.marcelo.algafood.api.util.DateConverterImpl;
 import com.marcelo.algafood.infrastructure.repository.CustomJpaRepositoryImpl;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import javax.annotation.PostConstruct;
 import java.time.OffsetDateTime;
 import java.util.Date;
 import java.util.TimeZone;
+
 
 
 @SpringBootApplication
@@ -31,6 +34,15 @@ public class AlgafoodApiApplication {
         System.out.println(dateConvertor.timestampDate(offsetDateTime));
 
 
+    }
+
+    @Bean
+    public ApplicationRunner init() {
+        return args -> {
+            System.out.println("\n Saving an MSG 1 (check the MySQL database) ...");
+
+            System.out.println("\n Saving an MSG 2  (check the PostgreSQL database) ...");
+        };
     }
 
     public static void main(String[] args) {
