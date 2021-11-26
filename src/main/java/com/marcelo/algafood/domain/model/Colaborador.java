@@ -1,6 +1,5 @@
 package com.marcelo.algafood.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.marcelo.algafood.domain.enumeration.ColaboradorType;
 import lombok.Getter;
 import lombok.Setter;

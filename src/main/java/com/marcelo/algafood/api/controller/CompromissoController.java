@@ -1,7 +1,6 @@
 package com.marcelo.algafood.api.controller;
 
 import com.marcelo.algafood.domain.exception.ResourceNaoEncontradoException;
-import com.marcelo.algafood.domain.exception.ServerException;
 import com.marcelo.algafood.domain.model.Compromisso;
 import com.marcelo.algafood.domain.model.GenericResponse;
 import com.marcelo.algafood.domain.service.CompromissoService;

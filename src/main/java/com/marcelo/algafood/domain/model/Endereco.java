@@ -2,7 +2,9 @@ package com.marcelo.algafood.domain.model;
 
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
 
 @Data
 @Embeddable

@@ -3,22 +3,27 @@ package com.marcelo.algafood;
 import com.marcelo.algafood.api.util.DateConverter;
 import com.marcelo.algafood.api.util.DateConverterImpl;
 import com.marcelo.algafood.infrastructure.repository.CustomJpaRepositoryImpl;
+import lombok.Value;
+import org.hibernate.cfg.Environment;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.annotation.PostConstruct;
 import java.time.OffsetDateTime;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.TimeZone;
-
 
 
 @SpringBootApplication
 @EnableJpaRepositories(repositoryBaseClass = CustomJpaRepositoryImpl.class)
 public class AlgafoodApiApplication {
+
 
     @PostConstruct
     void started() {
@@ -32,16 +37,14 @@ public class AlgafoodApiApplication {
         System.out.println("SqlTimestamp: " + dateConvertor.asTimestamp(offsetDateTime));
         System.out.println("Timestamp : " + dateConvertor.timestampZone(offsetDateTime));
         System.out.println(dateConvertor.timestampDate(offsetDateTime));
-
-
     }
 
     @Bean
     public ApplicationRunner init() {
         return args -> {
-            System.out.println("\n Saving an MSG 1 (check the MySQL database) ...");
+            System.out.println("\n MainApplication MSg 1 (check the MySQL database) ...");
+            System.out.println("\n MainApplication MSg 2  (check the PostgreSQL database) ...");
 
-            System.out.println("\n Saving an MSG 2  (check the PostgreSQL database) ...");
         };
     }
 

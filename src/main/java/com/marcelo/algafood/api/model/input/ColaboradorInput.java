@@ -1,14 +1,11 @@
 package com.marcelo.algafood.api.model.input;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.marcelo.algafood.domain.enumeration.ColaboradorType;
 import com.marcelo.algafood.domain.model.AbstractEntity;
 import com.marcelo.algafood.domain.model.Cafe;
-import com.marcelo.algafood.domain.model.ColaboradorGroupSequenceProvider;
 import com.marcelo.algafood.domain.model.Phone;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.group.GroupSequenceProvider;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;

@@ -9,7 +9,6 @@ import com.marcelo.algafood.domain.model.Cafe;
 import com.marcelo.algafood.domain.model.Colaborador;
 import com.marcelo.algafood.domain.repository.CafeRepository;
 import com.marcelo.algafood.domain.repository.ColaboradorRepository;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -52,19 +51,20 @@ public class CadastroColaboradorService {
 
         try {
             for (Cafe cafe : colaborador.getCafeList()) {
-                Optional<Cafe> isExists = cafeRepository.isExists(cafe.getTipo());
-                if (isExists.isPresent()) {
-                    throw new ResourceAlreadyExistsException("TIPO " + isExists.get().getTipo() + " JÁ CADASTRADO");
-                }
+                List<Cafe> cafesList = cafeRepository.findAll()
+                        .stream().filter(cafes -> cafes.getTipo()
+                                .equals(cafe.getTipo()))
+                        .collect(Collectors.toList());
+                if (cafesList.isEmpty())
+                    return colaboradorRepository.save(colaborador);
+                throw new ResourceAlreadyExistsException("TIPO " + cafe.getTipo() + " JÁ CADASTRADO");
             }
-            return colaboradorRepository.save(colaborador);
-
-        } catch (
-                DataIntegrityViolationException ex) {
+        } catch (DataIntegrityViolationException ex) {
             Colaborador returned = colaboradorRepository.isExists(colaborador.getCpfcnpj());
             throw new ConstraintViolationException(
                     String.format("CPF " + colaborador.getCpfcnpj() + " JÁ CADASTRADO PARA : " + returned.getNome()), null, ex.getCause().toString());
         }
+        return null;
     }
 
     @Transactional
