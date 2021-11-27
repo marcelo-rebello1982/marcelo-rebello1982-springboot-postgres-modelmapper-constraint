@@ -1,6 +1,6 @@
 package com.marcelo.algafood.api.assembler;
 
-import com.marcelo.algafood.api.model.RestauranteModel;
+import com.marcelo.algafood.api.model.response.RestauranteModel;
 import com.marcelo.algafood.domain.model.Restaurante;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -4,14 +4,18 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.marcelo.algafood.api.assembler.ColaboradorInputDisassembler;
 import com.marcelo.algafood.api.assembler.ColaboradorModelAssembler;
-import com.marcelo.algafood.api.model.ColaboradorModel;
 import com.marcelo.algafood.api.model.input.ColaboradorInput;
+import com.marcelo.algafood.api.model.response.ColaboradorModel;
 import com.marcelo.algafood.domain.exception.*;
 import com.marcelo.algafood.domain.model.Colaborador;
 import com.marcelo.algafood.domain.model.Restaurante;
 import com.marcelo.algafood.domain.service.CadastroColaboradorService;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
@@ -38,13 +42,22 @@ public class ColaboradorController {
     @Autowired
     private ColaboradorInputDisassembler colaboradorInputDisassembler;
 
+//    @GetMapping("/findAll")
+//    public List<ColaboradorModel> findAll(Pageable pageable) {
+//        return colaboradorModelAssembler
+//                .toCollectionModel(colaboradorService
+//                        .findAll());
+//    }
 
     @GetMapping("/findAll")
-    public List<ColaboradorModel> findAll() {
-        return colaboradorModelAssembler
+    public Page<ColaboradorModel> findAll(@PageableDefault(size = 10) Pageable pageable) {
+        Page<Colaborador> colaboradorPage = colaboradorService.findAll(pageable);
+        List<ColaboradorModel> colaboradorModels = colaboradorModelAssembler
                 .toCollectionModel(colaboradorService
-                        .findAll());
+                        .findAll(pageable).getContent());
+        return new PageImpl<>(colaboradorModels, pageable, colaboradorPage.getTotalElements());
     }
+
 
     @GetMapping("/findById/{colaboradorId}")
     public ColaboradorModel findById(@PathVariable Long colaboradorId) {
@@ -56,7 +69,6 @@ public class ColaboradorController {
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
     public ColaboradorModel save(@RequestBody @Valid ColaboradorInput colaboradorInput) {
-
 
         try {
             Colaborador colaborador = colaboradorInputDisassembler.toDomainObject(colaboradorInput);
@@ -71,13 +83,14 @@ public class ColaboradorController {
     }
 
     @PutMapping("/update/{colaboradorId}")
-    public ColaboradorModel update(@PathVariable Long Id, @RequestBody @Valid ColaboradorInput colaboradorInput) {
+    public ColaboradorModel update(@PathVariable Long colaboradorId, @RequestBody @Valid ColaboradorInput
+            colaboradorInput) {
 
         try {
-            Colaborador colaboradorAtual = colaboradorService.findById(Id);
+            Colaborador colaboradorAtual = colaboradorService.findById(colaboradorId);
             colaboradorInputDisassembler.copyToDomainObject(colaboradorInput, colaboradorAtual);
             return colaboradorModelAssembler.toModel(colaboradorService.save(colaboradorAtual));
-        } catch (ColaboradorNaoEncontradoException e) {
+        } catch (CidadeNaoEncontradaException | EstadoNaoEncontradoException e) {
             throw new NegocioException(e.getMessage(), e);
         }
     }

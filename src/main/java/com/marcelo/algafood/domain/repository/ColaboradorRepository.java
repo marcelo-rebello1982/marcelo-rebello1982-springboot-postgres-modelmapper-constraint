@@ -1,6 +1,9 @@
 package com.marcelo.algafood.domain.repository;
 
+import com.marcelo.algafood.api.model.response.ColaboradorModel;
 import com.marcelo.algafood.domain.model.Colaborador;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -11,6 +14,8 @@ import java.util.List;
 public interface ColaboradorRepository extends CustomJpaRepository<Colaborador, Long> {
 
     //https://prateek-ashtikar512.medium.com/dynamic-spring-projection-dbb4d360adf7
+
+    Page<Colaborador> findByNomeOrCpfcnpj(String nome, Pageable pageable);
 
     @Query("select c from Colaborador c where c.cpfcnpj = :cpfcnpj")
     Colaborador isExists(@Param("cpfcnpj") String cpfcnpj);

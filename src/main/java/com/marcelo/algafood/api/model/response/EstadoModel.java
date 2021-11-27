@@ -1,4 +1,4 @@
-package com.marcelo.algafood.api.model;
+package com.marcelo.algafood.api.model.response;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +8,6 @@ import lombok.Setter;
 public class EstadoModel {
 
 	private Long id;
-	private String nome;
+	private String uf;
 	
 }

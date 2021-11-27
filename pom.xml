@@ -43,6 +43,12 @@
                 <activatedProperties>prod</activatedProperties>
             </properties>
         </profile>
+<profile>
+            <id>prod</id>
+            <properties>
+                <activatedProperties>tst</activatedProperties>
+            </properties>
+        </profile>
     </profiles>
     <dependencies>
         <dependency>

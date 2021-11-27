@@ -1,4 +1,4 @@
-package com.marcelo.algafood.api.model;
+package com.marcelo.algafood.api.model.response;
 
 import java.time.OffsetDateTime;
 

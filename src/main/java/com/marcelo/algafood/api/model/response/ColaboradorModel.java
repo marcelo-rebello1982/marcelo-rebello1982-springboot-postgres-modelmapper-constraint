@@ -1,8 +1,7 @@
-package com.marcelo.algafood.api.model;
+package com.marcelo.algafood.api.model.response;
 
 import com.marcelo.algafood.domain.enumeration.ColaboradorType;
 import com.marcelo.algafood.domain.model.Cafe;
-import com.marcelo.algafood.domain.model.Endereco;
 import com.marcelo.algafood.domain.model.Phone;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,9 +14,12 @@ import java.util.List;
 @Getter
 public class ColaboradorModel {
 
+    // retornado na consulta
+
     private Long id; // retorna na consulta findById
     private String nome;
     private String cpfcnpj;
+    private String rg;
     private EnderecoModel endereco;
     private ColaboradorType colaboradorType;
     private OffsetDateTime dataCadastro;

@@ -1,7 +1,6 @@
-package com.marcelo.algafood.api.model;
+package com.marcelo.algafood.api.model.response;
 
 import com.marcelo.algafood.domain.model.Cozinha;
-import com.marcelo.algafood.domain.model.Endereco;
 import lombok.Getter;
 import lombok.Setter;
 

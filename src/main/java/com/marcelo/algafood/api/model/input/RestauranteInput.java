@@ -13,15 +13,19 @@ import java.math.BigDecimal;
 @Getter
 public class RestauranteInput {
 
-	@NotBlank
-	private String nome;
-	
-	@NotNull
-	@PositiveOrZero
-	private BigDecimal taxaFrete;
-	
-	@Valid
-	@NotNull
-	private CozinhaIdToEntity cozinha;
-	
+    @NotBlank
+    private String nome;
+
+    @NotNull
+    @PositiveOrZero
+    private BigDecimal taxaFrete;
+
+    @Valid
+    @NotNull
+    private CozinhaIdToEntity cozinha;
+
+    @Valid
+    @NotNull
+    private EnderecoInput endereco;
+
 }

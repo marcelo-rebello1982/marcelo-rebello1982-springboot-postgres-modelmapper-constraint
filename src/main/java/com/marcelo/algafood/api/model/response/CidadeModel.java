@@ -1,4 +1,4 @@
-package com.marcelo.algafood.api.model;
+package com.marcelo.algafood.api.model.response;
 
 import lombok.Getter;
 import lombok.Setter;

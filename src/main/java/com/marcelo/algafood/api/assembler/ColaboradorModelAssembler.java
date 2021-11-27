@@ -1,6 +1,6 @@
 package com.marcelo.algafood.api.assembler;
 
-import com.marcelo.algafood.api.model.ColaboradorModel;
+import com.marcelo.algafood.api.model.response.ColaboradorModel;
 import com.marcelo.algafood.domain.model.Colaborador;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +24,6 @@ public class ColaboradorModelAssembler {
                 .map(this::toModel)
                 .collect(Collectors.toList());
     }
+
 }
 

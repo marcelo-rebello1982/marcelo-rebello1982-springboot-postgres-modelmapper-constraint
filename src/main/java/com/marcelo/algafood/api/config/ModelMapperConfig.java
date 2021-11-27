@@ -1,6 +1,6 @@
 package com.marcelo.algafood.api.config;
 
-import com.marcelo.algafood.api.model.EnderecoModel;
+import com.marcelo.algafood.api.model.response.EnderecoModel;
 import com.marcelo.algafood.domain.model.Endereco;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

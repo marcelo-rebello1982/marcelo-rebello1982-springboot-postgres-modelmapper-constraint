@@ -1,7 +1,5 @@
 package com.marcelo.algafood.domain.service;
 
-import java.util.Properties;
-
 import com.marcelo.algafood.api.config.EmailConfig;
 import com.marcelo.algafood.domain.model.EmailResponse;
 import com.marcelo.algafood.domain.model.EmailService;
@@ -9,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
+
+import java.util.Properties;
 
 
 @Service

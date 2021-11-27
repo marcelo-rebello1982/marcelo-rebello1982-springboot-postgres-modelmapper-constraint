@@ -1,4 +1,4 @@
-package com.marcelo.algafood.api.model;
+package com.marcelo.algafood.api.model.response;
 
 import com.marcelo.algafood.domain.model.Cafe;
 import lombok.Getter;
