@@ -24,7 +24,7 @@ public class ColaboradorInputDisassembler {
 
     public void copyToDomainObject(ColaboradorInput colaboradorInput, Colaborador colaborador) {
         // para evitar identifier of an instance  Colaborador
-        // was altered from 1 to 2 , NÃO RETIRAR LINHAS 26/32
+        // was altered from 1 to 2 , NÃO RETIRAR LINHAS 28 para baixo
         List<Cafe> cafeList = new ArrayList<>();
         List<Phone> phoneList = new ArrayList<>();
         colaborador.setCafeList(cafeList);
