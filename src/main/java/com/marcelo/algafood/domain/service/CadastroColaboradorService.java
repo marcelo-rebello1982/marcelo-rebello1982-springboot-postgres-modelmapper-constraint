@@ -2,25 +2,26 @@ package com.marcelo.algafood.domain.service;
 
 
 import com.marcelo.algafood.api.controller.CidadeController;
-import com.marcelo.algafood.api.model.response.ColaboradorModel;
 import com.marcelo.algafood.domain.exception.ColaboradorEmUsoException;
 import com.marcelo.algafood.domain.exception.ColaboradorNaoEncontradoException;
 import com.marcelo.algafood.domain.exception.ConstraintViolationException;
 import com.marcelo.algafood.domain.exception.ResourceAlreadyExistsException;
 import com.marcelo.algafood.domain.model.Cafe;
+import com.marcelo.algafood.domain.model.Cidade;
 import com.marcelo.algafood.domain.model.Colaborador;
 import com.marcelo.algafood.domain.repository.CafeRepository;
+import com.marcelo.algafood.domain.repository.CidadeRepository;
 import com.marcelo.algafood.domain.repository.ColaboradorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 // https://prateek-ashtikar512.medium.com/dynamic-spring-projection-dbb4d360adf7
@@ -39,6 +40,9 @@ public class CadastroColaboradorService {
     private ColaboradorRepository colaboradorRepository;
 
     @Autowired
+    private CidadeRepository cidadeRepository;
+
+    @Autowired
     private CidadeController cidadeController;
 
     @Autowired
@@ -54,7 +58,10 @@ public class CadastroColaboradorService {
                 .orElseThrow(() -> new ColaboradorNaoEncontradoException(colaboradorId));
     }
 
+    @Transactional
     public Colaborador save(Colaborador colaborador) {
+
+        returnGetCidadeNome(colaborador);
 
         try {
             for (Cafe cafe : colaborador.getCafeList()) {
@@ -73,6 +80,26 @@ public class CadastroColaboradorService {
         }
         return null;
     }
+
+    public Colaborador update(Colaborador colaborador) {
+        returnGetCidadeNome(colaborador);
+        return colaboradorRepository.save(colaborador);
+    }
+
+    // necessario no retorno do Json para retornar o nome da cidade/uf
+    private void returnGetCidadeNome(Colaborador colaborador) {
+        Optional<Cidade> cidade = cidadeRepository.findById(colaborador.getEndereco().getCidade().getId());
+        colaborador.getEndereco().getCidade().setNome(cidade.get().getNome());
+        colaborador.getEndereco().getCidade().setEstado(cidade.get().getEstado());
+    }
+
+//    Optinal<QuestionDetails> optRecord = qdRepository.findQuestionDetails(qDetails);
+//    if(opt.isPresent())
+//    {
+//        return opt.get();
+//    }else{
+//        qdRepository.save(qDetails);
+//    }
 
     @Transactional
     public void delete(Long colaboradorId) {

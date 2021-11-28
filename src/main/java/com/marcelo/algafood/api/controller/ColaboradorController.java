@@ -66,6 +66,8 @@ public class ColaboradorController {
 
     }
 
+
+
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
     public ColaboradorModel save(@RequestBody @Valid ColaboradorInput colaboradorInput) {
@@ -89,7 +91,7 @@ public class ColaboradorController {
         try {
             Colaborador colaboradorAtual = colaboradorService.findById(colaboradorId);
             colaboradorInputDisassembler.copyToDomainObject(colaboradorInput, colaboradorAtual);
-            return colaboradorModelAssembler.toModel(colaboradorService.save(colaboradorAtual));
+            return colaboradorModelAssembler.toModel(colaboradorService.update(colaboradorAtual));
         } catch (CidadeNaoEncontradaException | EstadoNaoEncontradoException e) {
             throw new NegocioException(e.getMessage(), e);
         }

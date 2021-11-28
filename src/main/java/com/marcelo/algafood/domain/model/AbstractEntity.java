@@ -1,5 +1,6 @@
 package com.marcelo.algafood.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,10 +24,12 @@ public abstract class AbstractEntity<Long> implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = GENERATOR)
     protected Long id;
 
+    @JsonIgnore
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "timestamp")
     private OffsetDateTime dataCadastro;
 
+    @JsonIgnore
     @UpdateTimestamp
     @Column(nullable = false, columnDefinition = "timestamp")
     private OffsetDateTime dataAtualizacao;

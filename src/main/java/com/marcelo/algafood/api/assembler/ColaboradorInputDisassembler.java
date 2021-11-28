@@ -2,6 +2,7 @@ package com.marcelo.algafood.api.assembler;
 
 import com.marcelo.algafood.api.model.input.ColaboradorInput;
 import com.marcelo.algafood.domain.model.Cafe;
+import com.marcelo.algafood.domain.model.Cidade;
 import com.marcelo.algafood.domain.model.Colaborador;
 import com.marcelo.algafood.domain.model.Phone;
 import org.modelmapper.ModelMapper;
@@ -22,11 +23,15 @@ public class ColaboradorInputDisassembler {
     }
 
     public void copyToDomainObject(ColaboradorInput colaboradorInput, Colaborador colaborador) {
-        // para evitar identifier of an instance  Colaborador was altered from 1 to 2 , NÃO RETIRAR LINHAS 26/29
+        // para evitar identifier of an instance  Colaborador
+        // was altered from 1 to 2 , NÃO RETIRAR LINHAS 26/32
         List<Cafe> cafeList = new ArrayList<>();
         List<Phone> phoneList = new ArrayList<>();
         colaborador.setCafeList(cafeList);
         colaborador.setPhoneList(phoneList);
+        if (colaborador.getEndereco() != null) {
+            colaborador.getEndereco().setCidade(new Cidade());
+        }
         modelMapper.map(colaboradorInput, colaborador);
     }
 }

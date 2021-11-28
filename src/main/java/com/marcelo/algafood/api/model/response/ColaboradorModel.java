@@ -1,5 +1,6 @@
 package com.marcelo.algafood.api.model.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.marcelo.algafood.domain.enumeration.ColaboradorType;
 import com.marcelo.algafood.domain.model.Cafe;
 import com.marcelo.algafood.domain.model.Phone;
@@ -22,8 +23,11 @@ public class ColaboradorModel {
     private String rg;
     private EnderecoModel endereco;
     private ColaboradorType colaboradorType;
+
     private OffsetDateTime dataCadastro;
+
     private OffsetDateTime dataAtualizacao;
+
     private List<Cafe> cafeList = new ArrayList<>();
     private List<Phone> phoneList = new ArrayList<>();
 
