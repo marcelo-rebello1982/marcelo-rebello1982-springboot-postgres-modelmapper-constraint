@@ -57,10 +57,9 @@ public class ColaboradorController {
     @GetMapping("/findAll")
     public Page<ColaboradorResumoModel> findAll(@PageableDefault(size = 10) Pageable pageable) {
         Page<Colaborador> colaboradorPage = colaboradorService.findAll(pageable);
-        List<ColaboradorResumoModel> colaboradorModels = colaboradorResumoModelAssembler
+        return new PageImpl<>(colaboradorResumoModelAssembler
                 .toCollectionModel(colaboradorService
-                        .findAll(pageable).getContent());
-        return new PageImpl<>(colaboradorModels, pageable, colaboradorPage.getTotalElements());
+                        .findAll(pageable).getContent()), pageable, colaboradorPage.getTotalElements());
     }
 
 
