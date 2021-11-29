@@ -16,26 +16,33 @@ import java.util.List;
 @Getter
 public class ColaboradorModel {
 
-    // retornado na consulta
-    private Long id; // retorna na consulta findById
+    // retorna na consulta findById
+    @JsonView(ColaboradorView.Resumo.class)
+    private Long id;
 
-    @JsonView(ColaboradorView.class)
+    @JsonView(ColaboradorView.Resumo.class)
     private String nome;
 
+    @JsonView(ColaboradorView.Resumo.class)
     private String cpfcnpj;
 
+    @JsonView(ColaboradorView.Resumo.class)
     private String rg;
 
+    @JsonView(ColaboradorView.Resumo.class)
     private EnderecoModel endereco;
 
+    @JsonView(ColaboradorView.Resumo.class)
     private ColaboradorType colaboradorType;
 
+    @JsonView(ColaboradorView.Resumo.class)
     private OffsetDateTime dataCadastro;
 
     private OffsetDateTime dataAtualizacao;
 
     private List<Cafe> cafeList = new ArrayList<>();
 
+    @JsonView(ColaboradorView.Resumo.class)
     private List<Phone> phoneList = new ArrayList<>();
 
 }

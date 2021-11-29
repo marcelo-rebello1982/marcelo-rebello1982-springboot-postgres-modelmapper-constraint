@@ -59,6 +59,7 @@ public class ColaboradorController {
     }
 
     @GetMapping("/findById/{colaboradorId}")
+    @JsonView(ColaboradorView.Resumo.class)
     public ColaboradorModel findById(@PathVariable Long colaboradorId) {
         Colaborador colaboradorResponse = colaboradorService.findById(colaboradorId);
         return colaboradorModelAssembler.toModel(colaboradorResponse);
