@@ -17,6 +17,9 @@ import java.util.List;
 public class ColaboradorModel {
 
     // retorna na consulta findById
+
+//    @JsonView(ColaboradorView.Resumo.class)
+
     @JsonView(ColaboradorView.Resumo.class)
     private Long id;
 
@@ -39,7 +42,6 @@ public class ColaboradorModel {
     private OffsetDateTime dataCadastro;
 
     private OffsetDateTime dataAtualizacao;
-
     private List<Cafe> cafeList = new ArrayList<>();
 
     @JsonView(ColaboradorView.Resumo.class)

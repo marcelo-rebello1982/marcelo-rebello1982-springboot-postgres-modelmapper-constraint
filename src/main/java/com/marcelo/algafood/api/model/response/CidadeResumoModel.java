@@ -9,12 +9,12 @@ import lombok.Setter;
 @Getter
 public class CidadeResumoModel {
 
-	private Long id;
-
-	@JsonView(ColaboradorView.Resumo.class)
-	private String nome;
+    private Long id;
 
     @JsonView(ColaboradorView.Resumo.class)
-	private String estado;
+    private String nome;
+
+    @JsonView(ColaboradorView.Resumo.class)
+    private String estado;
 
 }

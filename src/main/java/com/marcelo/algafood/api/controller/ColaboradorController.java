@@ -45,7 +45,7 @@ public class ColaboradorController {
     private ColaboradorInputDisassembler colaboradorInputDisassembler;
 
     @GetMapping("/findAll")
-    //  @JsonView(ColaboradorView.Resumo.class)
+    @JsonView(ColaboradorView.Resumo.class)
     public Page<ColaboradorModel> findAll(@PageableDefault(size = 10) Pageable pageable) {
         Page<Colaborador> colaboradorPage = colaboradorService.findAll(pageable);
         return new PageImpl<>(colaboradorModelAssembler.toCollectionModel(
@@ -54,6 +54,7 @@ public class ColaboradorController {
     }
 
     @GetMapping("/findById/{colaboradorId}")
+    @JsonView(ColaboradorView.Resumo.class)
     public ColaboradorModel findById(@PathVariable Long colaboradorId) {
         Colaborador colaboradorResponse = colaboradorService.findById(colaboradorId);
         return colaboradorModelAssembler.toModel(colaboradorResponse);
