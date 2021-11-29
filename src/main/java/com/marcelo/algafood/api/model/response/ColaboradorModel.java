@@ -1,6 +1,7 @@
 package com.marcelo.algafood.api.model.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.marcelo.algafood.api.model.view.ColaboradorView;
 import com.marcelo.algafood.domain.enumeration.ColaboradorType;
 import com.marcelo.algafood.domain.model.Cafe;
 import com.marcelo.algafood.domain.model.Phone;
@@ -16,12 +17,17 @@ import java.util.List;
 public class ColaboradorModel {
 
     // retornado na consulta
-
     private Long id; // retorna na consulta findById
+
+    @JsonView(ColaboradorView.class)
     private String nome;
+
     private String cpfcnpj;
+
     private String rg;
+
     private EnderecoModel endereco;
+
     private ColaboradorType colaboradorType;
 
     private OffsetDateTime dataCadastro;
@@ -29,6 +35,7 @@ public class ColaboradorModel {
     private OffsetDateTime dataAtualizacao;
 
     private List<Cafe> cafeList = new ArrayList<>();
+
     private List<Phone> phoneList = new ArrayList<>();
 
 }

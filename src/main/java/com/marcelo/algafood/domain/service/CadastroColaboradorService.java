@@ -1,7 +1,6 @@
 package com.marcelo.algafood.domain.service;
 
 
-import com.marcelo.algafood.api.assembler.ColaboradorResumoModelAssembler;
 import com.marcelo.algafood.api.controller.CidadeController;
 import com.marcelo.algafood.domain.exception.ColaboradorEmUsoException;
 import com.marcelo.algafood.domain.exception.ColaboradorNaoEncontradoException;

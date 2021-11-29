@@ -1,13 +1,13 @@
 package com.marcelo.algafood.api.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.marcelo.algafood.api.assembler.ColaboradorInputDisassembler;
 import com.marcelo.algafood.api.assembler.ColaboradorModelAssembler;
-import com.marcelo.algafood.api.assembler.ColaboradorResumoModelAssembler;
 import com.marcelo.algafood.api.model.input.ColaboradorInput;
 import com.marcelo.algafood.api.model.response.ColaboradorModel;
-import com.marcelo.algafood.api.model.response.ColaboradorResumoModel;
+import com.marcelo.algafood.api.model.view.ColaboradorView;
 import com.marcelo.algafood.domain.exception.*;
 import com.marcelo.algafood.domain.model.Colaborador;
 import com.marcelo.algafood.domain.model.Restaurante;
@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.lang.reflect.Field;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -42,26 +41,22 @@ public class ColaboradorController {
     private ColaboradorModelAssembler colaboradorModelAssembler;
 
     @Autowired
-    private ColaboradorResumoModelAssembler colaboradorResumoModelAssembler;
-
-    @Autowired
     private ColaboradorInputDisassembler colaboradorInputDisassembler;
 
-//    @GetMapping("/findAll")
-//    public List<ColaboradorModel> findAll(Pageable pageable) {
-//        return colaboradorModelAssembler
-//                .toCollectionModel(colaboradorService
-//                        .findAll());
-//    }
-
     @GetMapping("/findAll")
-    public Page<ColaboradorResumoModel> findAll(@PageableDefault(size = 10) Pageable pageable) {
+    public Page<ColaboradorModel> findAll(@PageableDefault(size = 10) Pageable pageable) {
         Page<Colaborador> colaboradorPage = colaboradorService.findAll(pageable);
-        return new PageImpl<>(colaboradorResumoModelAssembler
+        return new PageImpl<>(colaboradorModelAssembler
                 .toCollectionModel(colaboradorService
                         .findAll(pageable).getContent()), pageable, colaboradorPage.getTotalElements());
     }
 
+    @JsonView(ColaboradorView.Resumo.class)
+    @GetMapping(params = "projecao-resumo")
+    public Page<ColaboradorModel> findAllByResumo(@PageableDefault(size = 10) Pageable pageable) {
+        Page<Colaborador> colaboradorPage = colaboradorService.findAll(pageable);
+        return findAll(pageable);
+    }
 
     @GetMapping("/findById/{colaboradorId}")
     public ColaboradorModel findById(@PathVariable Long colaboradorId) {
@@ -69,7 +64,6 @@ public class ColaboradorController {
         return colaboradorModelAssembler.toModel(colaboradorResponse);
 
     }
-
 
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)

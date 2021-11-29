@@ -1,6 +1,5 @@
 package com.marcelo.algafood.domain.repository;
 
-import com.marcelo.algafood.api.model.response.ColaboradorModel;
 import com.marcelo.algafood.domain.model.Colaborador;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

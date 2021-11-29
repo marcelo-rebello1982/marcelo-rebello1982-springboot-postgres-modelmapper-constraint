@@ -3,6 +3,7 @@ package com.marcelo.algafood.domain.service;
 import com.marcelo.algafood.domain.exception.CidadeNaoEncontradaException;
 import com.marcelo.algafood.domain.exception.EntidadeEmUsoException;
 import com.marcelo.algafood.domain.model.Cidade;
+import com.marcelo.algafood.domain.model.Estado;
 import com.marcelo.algafood.domain.repository.CidadeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
