@@ -52,14 +52,13 @@ public class ColaboradorController {
     }
 
     @JsonView(ColaboradorView.Resumo.class)
-    @GetMapping(params = "projecao-resumo")
+    @GetMapping(params = "projecao=resumed")
     public Page<ColaboradorModel> findAllByResumo(@PageableDefault(size = 10) Pageable pageable) {
         Page<Colaborador> colaboradorPage = colaboradorService.findAll(pageable);
         return findAll(pageable);
     }
 
     @GetMapping("/findById/{colaboradorId}")
-    @JsonView(ColaboradorView.Resumo.class)
     public ColaboradorModel findById(@PathVariable Long colaboradorId) {
         Colaborador colaboradorResponse = colaboradorService.findById(colaboradorId);
         return colaboradorModelAssembler.toModel(colaboradorResponse);
