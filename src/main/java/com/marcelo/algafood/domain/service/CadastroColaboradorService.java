@@ -87,10 +87,6 @@ public class CadastroColaboradorService {
         return null;
     }
 
-//    public Colaborador update(Colaborador colaborador) {
-//        returnToJsonGetCidadeGetUf(colaborador);
-//        return colaboradorRepository.save(colaborador);
-//    }
 
     // necessario para retornar no Json o nome da cidade/uf
     private void returnToJsonGetCidadeGetUf(Colaborador colaborador) {
@@ -98,14 +94,6 @@ public class CadastroColaboradorService {
         colaborador.getEndereco().getCidade().setNome(cidade.get().getNome());
         colaborador.getEndereco().getCidade().setEstado(cidade.get().getEstado());
     }
-
-//    Optinal<QuestionDetails> optRecord = qdRepository.findQuestionDetails(qDetails);
-//    if(opt.isPresent())
-//    {
-//        return opt.get();
-//    }else{
-//        qdRepository.save(qDetails);
-//    }
 
     @Transactional
     public void delete(Long colaboradorId) {
