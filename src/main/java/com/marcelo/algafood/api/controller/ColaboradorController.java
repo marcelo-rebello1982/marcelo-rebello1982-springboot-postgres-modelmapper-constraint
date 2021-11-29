@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -44,18 +45,12 @@ public class ColaboradorController {
     private ColaboradorInputDisassembler colaboradorInputDisassembler;
 
     @GetMapping("/findAll")
+    //  @JsonView(ColaboradorView.Resumo.class)
     public Page<ColaboradorModel> findAll(@PageableDefault(size = 10) Pageable pageable) {
         Page<Colaborador> colaboradorPage = colaboradorService.findAll(pageable);
-        return new PageImpl<>(colaboradorModelAssembler
-                .toCollectionModel(colaboradorService
-                        .findAll(pageable).getContent()), pageable, colaboradorPage.getTotalElements());
-    }
-
-    @JsonView(ColaboradorView.Resumo.class)
-    @GetMapping(params = "projecao=resumed")
-    public Page<ColaboradorModel> findAllByResumo(@PageableDefault(size = 10) Pageable pageable) {
-        Page<Colaborador> colaboradorPage = colaboradorService.findAll(pageable);
-        return findAll(pageable);
+        return new PageImpl<>(colaboradorModelAssembler.toCollectionModel(
+                colaboradorPage.getContent()), pageable,
+                colaboradorPage.getTotalElements());
     }
 
     @GetMapping("/findById/{colaboradorId}")
