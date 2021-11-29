@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.marcelo.algafood.api.assembler.ColaboradorInputDisassembler;
 import com.marcelo.algafood.api.assembler.ColaboradorModelAssembler;
+import com.marcelo.algafood.api.assembler.ColaboradorResumoModelAssembler;
 import com.marcelo.algafood.api.model.input.ColaboradorInput;
 import com.marcelo.algafood.api.model.response.ColaboradorModel;
+import com.marcelo.algafood.api.model.response.ColaboradorResumoModel;
 import com.marcelo.algafood.domain.exception.*;
 import com.marcelo.algafood.domain.model.Colaborador;
 import com.marcelo.algafood.domain.model.Restaurante;
@@ -40,6 +42,9 @@ public class ColaboradorController {
     private ColaboradorModelAssembler colaboradorModelAssembler;
 
     @Autowired
+    private ColaboradorResumoModelAssembler colaboradorResumoModelAssembler;
+
+    @Autowired
     private ColaboradorInputDisassembler colaboradorInputDisassembler;
 
 //    @GetMapping("/findAll")
@@ -50,9 +55,9 @@ public class ColaboradorController {
 //    }
 
     @GetMapping("/findAll")
-    public Page<ColaboradorModel> findAll(@PageableDefault(size = 10) Pageable pageable) {
+    public Page<ColaboradorResumoModel> findAll(@PageableDefault(size = 10) Pageable pageable) {
         Page<Colaborador> colaboradorPage = colaboradorService.findAll(pageable);
-        List<ColaboradorModel> colaboradorModels = colaboradorModelAssembler
+        List<ColaboradorResumoModel> colaboradorModels = colaboradorResumoModelAssembler
                 .toCollectionModel(colaboradorService
                         .findAll(pageable).getContent());
         return new PageImpl<>(colaboradorModels, pageable, colaboradorPage.getTotalElements());
@@ -65,7 +70,6 @@ public class ColaboradorController {
         return colaboradorModelAssembler.toModel(colaboradorResponse);
 
     }
-
 
 
     @PostMapping("/save")
@@ -91,7 +95,7 @@ public class ColaboradorController {
         try {
             Colaborador colaboradorAtual = colaboradorService.findById(colaboradorId);
             colaboradorInputDisassembler.copyToDomainObject(colaboradorInput, colaboradorAtual);
-            return colaboradorModelAssembler.toModel(colaboradorService.update(colaboradorAtual));
+            return colaboradorModelAssembler.toModel(colaboradorService.save(colaboradorAtual));
         } catch (CidadeNaoEncontradaException | EstadoNaoEncontradoException e) {
             throw new NegocioException(e.getMessage(), e);
         }

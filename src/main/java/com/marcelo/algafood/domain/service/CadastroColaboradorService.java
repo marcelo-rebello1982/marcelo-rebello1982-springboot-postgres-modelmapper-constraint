@@ -1,6 +1,7 @@
 package com.marcelo.algafood.domain.service;
 
 
+import com.marcelo.algafood.api.assembler.ColaboradorResumoModelAssembler;
 import com.marcelo.algafood.api.controller.CidadeController;
 import com.marcelo.algafood.domain.exception.ColaboradorEmUsoException;
 import com.marcelo.algafood.domain.exception.ColaboradorNaoEncontradoException;
@@ -12,6 +13,8 @@ import com.marcelo.algafood.domain.model.Colaborador;
 import com.marcelo.algafood.domain.repository.CafeRepository;
 import com.marcelo.algafood.domain.repository.CidadeRepository;
 import com.marcelo.algafood.domain.repository.ColaboradorRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -32,6 +35,9 @@ public class CadastroColaboradorService {
 
     private static final String MSG_COLABORADOR_EM_USO
             = "Colaborador de código %d não pode ser removido,  xxx acertar";
+
+    private static Logger logger = LoggerFactory.getLogger(CadastroColaboradorService.class);
+
 
     @Autowired
     private CafeRepository cafeRepository;
@@ -58,10 +64,8 @@ public class CadastroColaboradorService {
                 .orElseThrow(() -> new ColaboradorNaoEncontradoException(colaboradorId));
     }
 
-    @Transactional
     public Colaborador save(Colaborador colaborador) {
-
-        returnGetCidadeNome(colaborador);
+        returnToJsonGetCidadeGetUf(colaborador);
 
         try {
             for (Cafe cafe : colaborador.getCafeList()) {
@@ -69,6 +73,8 @@ public class CadastroColaboradorService {
                         .stream().filter(cafes -> cafes.getTipo()
                                 .equals(cafe.getTipo()))
                         .collect(Collectors.toList());
+                if (colaborador.getId() != null)
+                    return colaboradorRepository.save(colaborador);
                 if (cafesList.isEmpty())
                     return colaboradorRepository.save(colaborador);
                 throw new ResourceAlreadyExistsException(" TIPO " + cafe.getTipo() + " JÁ CADASTRADO ");
@@ -81,13 +87,13 @@ public class CadastroColaboradorService {
         return null;
     }
 
-    public Colaborador update(Colaborador colaborador) {
-        returnGetCidadeNome(colaborador);
-        return colaboradorRepository.save(colaborador);
-    }
+//    public Colaborador update(Colaborador colaborador) {
+//        returnToJsonGetCidadeGetUf(colaborador);
+//        return colaboradorRepository.save(colaborador);
+//    }
 
-    // necessario no retorno do Json para retornar o nome da cidade/uf
-    private void returnGetCidadeNome(Colaborador colaborador) {
+    // necessario para retornar no Json o nome da cidade/uf
+    private void returnToJsonGetCidadeGetUf(Colaborador colaborador) {
         Optional<Cidade> cidade = cidadeRepository.findById(colaborador.getEndereco().getCidade().getId());
         colaborador.getEndereco().getCidade().setNome(cidade.get().getNome());
         colaborador.getEndereco().getCidade().setEstado(cidade.get().getEstado());
