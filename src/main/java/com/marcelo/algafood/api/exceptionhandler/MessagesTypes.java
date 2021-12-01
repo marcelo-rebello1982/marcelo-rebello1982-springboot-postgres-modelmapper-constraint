@@ -7,6 +7,7 @@ public enum MessagesTypes {
 
 	DADOS_INVALIDOS("/dados-invalidos", "Dados inválidos"),
 	CAFE_JA_CADASTRADO("/dados-invalidos", "ATENÇÃO : TIPO de CAFÉ JÁ CADASTRADO"),
+	EMAIL_ERRO_NO_ENVIO("/erro-no-servidor-SMTP", "ATENÇÃO : ERRO NO SERVIDOR SMTP "),
 	TIPO_DE_OBJETO_JA_CADASTRADO("/dados-invalidos", "ATENÇÃO : JÁ CADASTRADO"),
 	ERRO_DE_SISTEMA("/erro-de-sistema", "Erro de sistema"),
 	PARAMETRO_INVALIDO("/parametro-invalido", "Parâmetro inválido"),

@@ -11,6 +11,7 @@ import com.marcelo.algafood.api.model.view.ColaboradorView;
 import com.marcelo.algafood.domain.exception.*;
 import com.marcelo.algafood.domain.model.Colaborador;
 import com.marcelo.algafood.domain.model.Restaurante;
+import com.marcelo.algafood.domain.model.interfaces.SendMailServiceInterface;
 import com.marcelo.algafood.domain.service.CadastroColaboradorService;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +28,15 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.lang.reflect.Field;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 @RestController
 @RequestMapping(value = "/colaborador")
 public class ColaboradorController {
+
+    //   @Autowired
+    //   private SendEmailService sendMailService;
 
     @Autowired
     private CadastroColaboradorService colaboradorService;
@@ -44,14 +47,22 @@ public class ColaboradorController {
     @Autowired
     private ColaboradorInputDisassembler colaboradorInputDisassembler;
 
+
+    //  @JsonView(ColaboradorView.Resumo.class)
     @GetMapping("/findAll")
-    @JsonView(ColaboradorView.Resumo.class)
     public Page<ColaboradorModel> findAll(@PageableDefault(size = 10) Pageable pageable) {
         Page<Colaborador> colaboradorPage = colaboradorService.findAll(pageable);
         return new PageImpl<>(colaboradorModelAssembler.toCollectionModel(
                 colaboradorPage.getContent()), pageable,
                 colaboradorPage.getTotalElements());
     }
+
+    @GetMapping(params = "projecao=resumo")
+    @JsonView(ColaboradorView.Resumo.class)
+    public Page<ColaboradorModel> findAllResumed(@PageableDefault(size = 10) Pageable pageable) {
+        return findAll(pageable);
+    }
+
 
     @GetMapping("/findById/{colaboradorId}")
     @JsonView(ColaboradorView.Resumo.class)
@@ -76,6 +87,8 @@ public class ColaboradorController {
             throw new ResourceAlreadyExistsException(e.getMessage());
         }
     }
+
+
 
     @PutMapping("/update/{colaboradorId}")
     public ColaboradorModel update(@PathVariable Long colaboradorId, @RequestBody @Valid ColaboradorInput

@@ -37,8 +37,8 @@ public class AlgafoodApiApplication {
     @Bean
     public ApplicationRunner init() {
         return args -> {
-            System.out.println("\n MainApplication MSg 1 (check the MySQL database) ...");
-            System.out.println("\n MainApplication MSg 2  (check the PostgreSQL database) ...");
+            System.out.println("\n AlgafoodApiApplication.class : MSg 1 (check the MySQL database) ...");
+            System.out.println("\n AlgafoodApiApplication.class : MSg 2  (check the PostgreSQL database) ...");
 
         };
     }

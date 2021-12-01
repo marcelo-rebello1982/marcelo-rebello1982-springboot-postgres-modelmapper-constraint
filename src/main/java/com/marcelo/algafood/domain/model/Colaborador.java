@@ -1,6 +1,8 @@
 package com.marcelo.algafood.domain.model;
 
 import com.marcelo.algafood.domain.enumeration.ColaboradorType;
+import com.marcelo.algafood.domain.model.interfaces.CnpjGroup;
+import com.marcelo.algafood.domain.model.interfaces.CpfGroup;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.br.CNPJ;
@@ -8,7 +10,9 @@ import org.hibernate.validator.constraints.br.CPF;
 import org.hibernate.validator.group.GroupSequenceProvider;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +39,9 @@ public class Colaborador extends AbstractEntity<Long> {
     @Enumerated(EnumType.STRING)
     @Column(name = "colaborador_type")
     private ColaboradorType colaboradorType;
+
+    @Column(nullable = true)
+    private String emailAddress;
 
     @Embedded
     private Endereco endereco;

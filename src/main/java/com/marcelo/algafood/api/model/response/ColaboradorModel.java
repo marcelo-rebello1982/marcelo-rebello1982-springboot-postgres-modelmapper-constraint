@@ -30,6 +30,9 @@ public class ColaboradorModel {
     private String cpfcnpj;
 
     @JsonView(ColaboradorView.Resumo.class)
+    private String email;
+
+    @JsonView(ColaboradorView.Resumo.class)
     private String rg;
 
     @JsonView(ColaboradorView.Resumo.class)

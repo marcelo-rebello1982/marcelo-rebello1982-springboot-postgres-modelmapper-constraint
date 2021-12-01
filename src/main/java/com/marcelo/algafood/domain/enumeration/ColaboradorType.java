@@ -1,8 +1,8 @@
 
 package com.marcelo.algafood.domain.enumeration;
 
-import com.marcelo.algafood.domain.model.CnpjGroup;
-import com.marcelo.algafood.domain.model.CpfGroup;
+import com.marcelo.algafood.domain.model.interfaces.CnpjGroup;
+import com.marcelo.algafood.domain.model.interfaces.CpfGroup;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

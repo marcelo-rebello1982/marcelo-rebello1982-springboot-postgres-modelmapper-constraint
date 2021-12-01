@@ -6,9 +6,12 @@ import com.marcelo.algafood.domain.model.Phone;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +29,11 @@ public class ColaboradorInput {
 
     @NotBlank
     private String rg;
+
+    @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
+            flags = Pattern.Flag.CASE_INSENSITIVE)
+    @Column(nullable = true)
+    private String emailAddress;
 
     private ColaboradorType colaboradorType;
 

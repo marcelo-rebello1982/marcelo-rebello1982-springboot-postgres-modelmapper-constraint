@@ -291,6 +291,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, errorDetails, new HttpHeaders(), status, request);
     }
 
+    @ExceptionHandler(EmailException.class)
+    public ResponseEntity<?> handleEmailException(EmailException ex, WebRequest request) {
+
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        MessagesTypes messagesTypes = MessagesTypes.EMAIL_ERRO_NO_ENVIO;
+        String detail = ex.getMessage();
+        ErrorDetails errorDetails = createErrorDetails(status, messagesTypes, detail)
+                .userMessage(detail)
+                .build();
+        return handleExceptionInternal(ex, errorDetails, new HttpHeaders(), status, request);
+    }
+
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
                                                              HttpStatus status, WebRequest request) {
@@ -313,6 +325,29 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
         return super.handleExceptionInternal(ex, body, headers, status, request);
     }
+
+//    @ExceptionHandler(ConstraintViolationException.class)
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    @ResponseBody
+//    ValidationErrorResponse onConstraintValidationException(ConstraintViolationException e) {
+//        ValidationErrorResponse error = new ValidationErrorResponse();
+//        for (ConstraintViolation violation : e.getConstraintViolations()) {
+//            error.getViolations().add(new Violation(violation.getPropertyPath().toString(), violation.getMessage()));
+//        }
+//        return error;
+//    }
+//
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    @ResponseBody
+//    ValidationErrorResponse onMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+//        ValidationErrorResponse error = new ValidationErrorResponse();
+//        for (FieldError fieldError : e.getBindingResult().getFieldErrors()) {
+//            error.getViolations().add(new Violation(fieldError.getField(), fieldError.getDefaultMessage()));
+//        }
+//        return error;
+//    }
+
 
     private ErrorDetails.ErrorDetailsBuilder createErrorDetails(HttpStatus status,
                                                                 MessagesTypes messageTypes, String detail) {
