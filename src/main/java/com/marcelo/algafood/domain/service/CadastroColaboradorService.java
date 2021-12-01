@@ -74,11 +74,11 @@ public class CadastroColaboradorService {
                                 .equals(cafe.getTipo()))
                         .collect(Collectors.toList());
                 if (colaborador.getId() != null) {
-                    sendMailToConfirmRegister(colaborador);
+                    sendMailToConfirmRegistration(colaborador);
                     return colaboradorRepository.save(colaborador);
                 }
                 if (cafesList.isEmpty()) {
-                    sendMailToConfirmRegister(colaborador);
+                    sendMailToConfirmRegistration(colaborador);
                     return colaboradorRepository.save(colaborador);
                 }
                 throw new ResourceAlreadyExistsException(" TIPO " + cafe.getTipo() + " JÁ CADASTRADO ");
@@ -93,14 +93,14 @@ public class CadastroColaboradorService {
         return colaborador;
     }
 
-    private void sendMailToConfirmRegister(Colaborador colaborador) {
+    private String sendMailToConfirmRegistration(Colaborador colaborador) {
         var mensagem = SendMailServiceInterface.Message.builder()
                 .subject(colaborador.getNome() + " para esse cara")
-                .body("body ... o nome é : <strong> " + colaborador.getNome() + "</strong> ")
+                .body("body (acertar o corpo da mensagem  : <strong> " + colaborador.getNome() + " | " + colaborador.getCpfcnpj() + "</strong> ")
                 .recipient(colaborador.getEmailAddress()).build(); // mais de um dest, duplicar esta linha
         emailService.sendMessage(mensagem);
+        return mensagem.toString();
     }
-
 
     // necessario para retornar no Json o nome da cidade/uf
     private void returnToJsonGetCidadeGetUf(Colaborador colaborador) {
