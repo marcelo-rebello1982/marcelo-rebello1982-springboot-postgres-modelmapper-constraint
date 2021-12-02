@@ -13,6 +13,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -36,8 +37,11 @@ public class CadastroCidadeService {
     public Cidade save(Cidade cidade) {
 
         Predicate<Cidade> cidadeName = c -> c.getNome().equals(cidade.getNome());
-        Optional<Estado> estado = estadoRepository.findById(cidade.getEstado().getId());
-         Predicate<Cidade> UFName = e -> e.getEstado().getNome().equals(estado.get().getNome());
+        Predicate<Cidade> UFName = uf -> uf.getEstado().getNome().equals(
+                estadoRepository.findById(cidade.getEstado()
+                        .getId()).get().getNome());
+
+
         List<Cidade> isExists = cidadeRepository.findAll()
                 .stream().filter(cidadeName)
                 .filter(UFName).collect(Collectors.toList());
@@ -50,19 +54,6 @@ public class CadastroCidadeService {
         cidade.setEstado(cadastroEstado.findById(cidade.getEstado().getId()));
         return cidadeRepository.save(cidade);
     }
-
-//    public Cidade save(Cidade cidade) {
-//
-//        List<Cidade> isExists = findCidadeByNome(cidade.getNome(), cidadeRepository.findAll());
-//        if (!isExists.isEmpty())
-//            for (Cidade c : isExists) {
-//                throw new CidadeEncontradaException("CIDADE " + c.getNome() + " JÁ CADASTRADA NO ESTADO DE : "
-//                        + estadoRepository.findById(cidade.getEstado().getId()).get().getNome());
-//            }
-//        cidade.setEstado(cadastroEstado.findById(cidade.getEstado().getId()));
-//        return cidadeRepository.save(cidade);
-//    }
-
 
     public List<Cidade> findCidadeByNome(String nome, List<Cidade> list) {
         return list.stream()
