@@ -41,14 +41,13 @@ public class CadastroCidadeService {
                 estadoRepository.findById(cidade.getEstado()
                         .getId()).get().getNome());
 
-
         List<Cidade> isExists = cidadeRepository.findAll()
                 .stream().filter(cidadeName)
                 .filter(UFName).collect(Collectors.toList());
         if (!isExists.isEmpty()) {
             for (Cidade c : isExists) {
                 throw new CidadeEncontradaException("CIDADE " + c.getNome() + " JÁ CADASTRADA NO ESTADO DE : "
-                        + estadoRepository.findById(cidade.getEstado().getId()).get().getNome());
+                        + c.getEstado().getNome());
             }
         }
         cidade.setEstado(cadastroEstado.findById(cidade.getEstado().getId()));
