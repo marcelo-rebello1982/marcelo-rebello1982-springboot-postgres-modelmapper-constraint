@@ -12,6 +12,7 @@ import com.marcelo.algafood.domain.exception.*;
 import com.marcelo.algafood.domain.model.Colaborador;
 import com.marcelo.algafood.domain.model.Restaurante;
 import com.marcelo.algafood.domain.model.interfaces.SendMailServiceInterface;
+import com.marcelo.algafood.domain.repository.filter.ColaboradorFilter;
 import com.marcelo.algafood.domain.service.CadastroColaboradorService;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -47,8 +49,6 @@ public class ColaboradorController {
     @Autowired
     private ColaboradorInputDisassembler colaboradorInputDisassembler;
 
-
-    //  @JsonView(ColaboradorView.Resumo.class)
     @GetMapping("/findAll")
     public Page<ColaboradorModel> findAll(@PageableDefault(size = 10) Pageable pageable) {
         Page<Colaborador> colaboradorPage = colaboradorService.findAll(pageable);
@@ -62,7 +62,6 @@ public class ColaboradorController {
     public Page<ColaboradorModel> findAllResumed(@PageableDefault(size = 10) Pageable pageable) {
         return findAll(pageable);
     }
-
 
     @GetMapping("/findById/{colaboradorId}")
     @JsonView(ColaboradorView.Resumo.class)
@@ -88,8 +87,6 @@ public class ColaboradorController {
         }
     }
 
-
-
     @PutMapping("/update/{colaboradorId}")
     public ColaboradorModel update(@PathVariable Long colaboradorId, @RequestBody @Valid ColaboradorInput
             colaboradorInput) {
@@ -110,7 +107,6 @@ public class ColaboradorController {
         merge(campos, colaboradorAtual, request);
         return update(colaboradorId, null);
     }
-
 
     private void merge(Map<String, Object> dadosOrigem, Colaborador colaboradorDestino,
                        HttpServletRequest request) {

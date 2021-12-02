@@ -24,7 +24,7 @@ public class SendEmailService implements SendMailServiceInterface {
     @Override
     public void sendMessage(Message message) {
 
-        System.out.println("SendEmailService : Email sera enviado para : " + message.getRecipients());
+        System.out.println("SendEmailService - Email sera enviado para : " + message.getRecipients());
 
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();

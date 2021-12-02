@@ -46,10 +46,6 @@ public class CidadeController {
             throw new ResourceAlreadyExistsException(e.getMessage());
         } catch (EstadoNaoEncontradoException e) {
             throw new NegocioException(e.getMessage(), e);
-        } catch (DataIntegrityViolationException ex) {
-            Cidade response = cidadeRepository.isExists(cidade.getNome());
-            throw new ConstraintViolationException(
-                    String.format("CIDADE " + response.getNome() + " JÁ CADASTRADA. "), null, ex.getCause().toString());
         }
     }
 

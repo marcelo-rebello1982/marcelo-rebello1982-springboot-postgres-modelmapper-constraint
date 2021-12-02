@@ -12,4 +12,7 @@ public interface EstadoRepository extends JpaRepository<Estado, Long> {
     @Query("select e from Estado e where e.nome = :nome")
     Estado isExists(@Param("nome") String nome);
 
+    @Query("select e from Estado e where e.nome = :nome")
+    Estado findByNome(@Param("nome") String nome);
+
 }

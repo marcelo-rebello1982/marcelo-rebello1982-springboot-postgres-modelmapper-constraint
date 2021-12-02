@@ -1,13 +1,21 @@
 package com.marcelo.algafood.domain.service;
 
+import com.marcelo.algafood.domain.exception.CidadeEncontradaException;
 import com.marcelo.algafood.domain.exception.CidadeNaoEncontradaException;
 import com.marcelo.algafood.domain.exception.EntidadeEmUsoException;
 import com.marcelo.algafood.domain.model.Cidade;
+import com.marcelo.algafood.domain.model.Estado;
 import com.marcelo.algafood.domain.repository.CidadeRepository;
+import com.marcelo.algafood.domain.repository.EstadoRepository;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CadastroCidadeService {
@@ -16,26 +24,32 @@ public class CadastroCidadeService {
             = "Cidade de código %d não pode ser removida, pois está em uso";
 
     @Autowired
+    private EstadoRepository estadoRepository;
+
+    @Autowired
     private CidadeRepository cidadeRepository;
 
     @Autowired
     private CadastroEstadoService cadastroEstado;
 
     public Cidade save(Cidade cidade) {
+
+        List<Cidade> isExists = findCidadeByNome(cidade.getNome(), cidadeRepository.findAll());
+        if (!isExists.isEmpty())
+            for (Cidade c : isExists) {
+                throw new CidadeEncontradaException("CIDADE " + c.getNome() + " JÁ CADASTRADA NO ESTADO DE : "
+                        + estadoRepository.findById(cidade.getEstado().getId()).get().getNome());
+            }
         cidade.setEstado(cadastroEstado.findById(cidade.getEstado().getId()));
         return cidadeRepository.save(cidade);
-
     }
 
-    //        try {
-//            return cadastroCidade.save(cidade);
-//        } catch (EstadoNaoEncontradoException e) {
-//            throw new NegocioException(e.getMessage(), e);
-//        } catch (ConstraintViolationException ex) {
-//            throw new ConstraintViolationException(
-//                    String.format("CIDADE " + cidade.getNome() + " JÁ CADASTRADA. " + cidade.getVersion()), null, ex.getCause().toString());
-//        }
-
+    public List<Cidade> findCidadeByNome(String nome, List<Cidade> list) {
+        return list.stream()
+                .filter(str -> str.toString()
+                        .trim().contains(nome))
+                .collect(Collectors.toList());
+    }
 
     public void delete(Long cidadeId) {
         try {

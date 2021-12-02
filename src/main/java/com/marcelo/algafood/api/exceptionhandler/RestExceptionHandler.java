@@ -14,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -38,40 +39,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @Autowired
     private MessageSource messageSource;
 
-    @ExceptionHandler({ValidacaoException.class})
-    public ResponseEntity<Object> handleValidacaoException(ValidacaoException ex, WebRequest request) {
-        return handleValidationInternal(ex, ex.getBindingResult(), new HttpHeaders(),
-                HttpStatus.BAD_REQUEST, request);
-    }
 
-    private ResponseEntity<Object> handleValidationInternal(Exception ex, BindingResult bindingResult, HttpHeaders headers,
-                                                            HttpStatus status, WebRequest request) {
-        MessagesTypes messagesTypes = MessagesTypes.DADOS_INVALIDOS;
-        String detail = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.";
-
-        List<ErrorDetails.Object> problemObjects = bindingResult.getAllErrors().stream()
-                .map(objectError -> {
-                    String message = messageSource.getMessage(objectError, LocaleContextHolder.getLocale());
-
-                    String name = objectError.getObjectName();
-
-                    if (objectError instanceof FieldError) {
-                        name = ((FieldError) objectError).getField();
-                    }
-
-                    return ErrorDetails.Object.builder()
-                            .name(name)
-                            .userMessage(message)
-                            .build();
-                })
-                .collect(Collectors.toList());
-
-        ErrorDetails errorDetails = createErrorDetails(status, messagesTypes, detail)
-                .userMessage(detail)
-                .objects(problemObjects)
-                .build();
-
-        return handleExceptionInternal(ex, errorDetails, headers, status, request);
+    @Override
+    protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return handleValidationInternal(ex, headers, status, request, ex.getBindingResult());
     }
 
     @Override
@@ -98,6 +69,44 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                             .userMessage(message)
                             .build();
                 }).collect(Collectors.toList());
+
+        ErrorDetails errorDetails = createErrorDetails(status, messagesTypes, detail)
+                .userMessage(detail)
+                .objects(problemObjects)
+                .build();
+
+        return handleExceptionInternal(ex, errorDetails, headers, status, request);
+    }
+
+//    @ExceptionHandler({ValidacaoException.class})
+//    public ResponseEntity<Object> handleValidacaoException(ValidacaoException ex, WebRequest request) {
+//        return handleValidationInternal(ex, ex.getBindingResult(), new HttpHeaders(),
+//                HttpStatus.BAD_REQUEST, request);
+//    }
+
+
+    private ResponseEntity<Object> handleValidationInternal(Exception ex, HttpHeaders headers,
+                                                            HttpStatus status, WebRequest request, BindingResult bindingResult) {
+
+        MessagesTypes messagesTypes = MessagesTypes.DADOS_INVALIDOS;
+        String detail = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.";
+
+        List<ErrorDetails.Object> problemObjects = bindingResult.getAllErrors().stream()
+                .map(objectError -> {
+                    String message = messageSource.getMessage(objectError, LocaleContextHolder.getLocale());
+
+                    String name = objectError.getObjectName();
+
+                    if (objectError instanceof FieldError) {
+                        name = ((FieldError) objectError).getField();
+                    }
+
+                    return ErrorDetails.Object.builder()
+                            .name(name)
+                            .userMessage(message)
+                            .build();
+                })
+                .collect(Collectors.toList());
 
         ErrorDetails errorDetails = createErrorDetails(status, messagesTypes, detail)
                 .userMessage(detail)
@@ -136,6 +145,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
         return handleExceptionInternal(ex, errorDetails, headers, status, request);
     }
+
 
     @Override
     protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers,
@@ -235,7 +245,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, errorDetails, new HttpHeaders(), status, request);
     }
 
-
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException ex,
                                                            WebRequest request) {
@@ -265,7 +274,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<?> handleTipoDeObjetoCadastrado(ConstraintViolationException ex, WebRequest request) {
+    public ResponseEntity<?> handleTipoDeObjetoJaCadastrado(ConstraintViolationException ex, WebRequest request) {
 
         HttpStatus status = HttpStatus.CONFLICT;
         MessagesTypes messageTypes = MessagesTypes.TIPO_DE_OBJETO_JA_CADASTRADO;
@@ -325,6 +334,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
         return super.handleExceptionInternal(ex, body, headers, status, request);
     }
+
 
 //    @ExceptionHandler(ConstraintViolationException.class)
 //    @ResponseStatus(HttpStatus.BAD_REQUEST)

@@ -55,6 +55,7 @@ public class CadastroColaboradorService {
     @Autowired
     private CadastroCafeService cafeService;
 
+
     public Page<Colaborador> findAll(Pageable pageable) {
         return colaboradorRepository.findAll(pageable);
     }
@@ -74,11 +75,13 @@ public class CadastroColaboradorService {
                                 .equals(cafe.getTipo()))
                         .collect(Collectors.toList());
                 if (colaborador.getId() != null) {
-                    sendMailToConfirmRegistration(colaborador);
+                    // desativado para testes
+                    //    sendMailToConfirmRegistration(colaborador);
                     return colaboradorRepository.save(colaborador);
                 }
                 if (cafesList.isEmpty()) {
-                    sendMailToConfirmRegistration(colaborador);
+                    // desativado para testes
+                    //    sendMailToConfirmRegistration(colaborador);
                     return colaboradorRepository.save(colaborador);
                 }
                 throw new ResourceAlreadyExistsException(" TIPO " + cafe.getTipo() + " JÁ CADASTRADO ");
@@ -86,9 +89,9 @@ public class CadastroColaboradorService {
         } catch (ConstraintViolationException e) {
             throw new ConstraintViolationException(e.getMessage(), null, e.getLocalizedMessage());
         } catch (DataIntegrityViolationException ex) {
-            Colaborador duplicated = colaboradorRepository.isExists(colaborador.getCpfcnpj());
+            Colaborador allReadExists = colaboradorRepository.isExists(colaborador.getCpfcnpj());
             throw new ConstraintViolationException(
-                    String.format("CPF " + colaborador.getCpfcnpj() + " JÁ CADASTRADO PARA : " + duplicated.getNome()), null, ex.getCause().toString());
+                    String.format("CPF " + colaborador.getCpfcnpj() + " JÁ CADASTRADO PARA : " + allReadExists.getNome()), null, ex.getCause().toString());
         }
         return colaborador;
     }
@@ -96,7 +99,7 @@ public class CadastroColaboradorService {
     private String sendMailToConfirmRegistration(Colaborador colaborador) {
         var mensagem = SendMailServiceInterface.Message.builder()
                 .subject(colaborador.getNome() + " para esse cara")
-                .body("body (acertar o corpo da mensagem  : <strong> " + colaborador.getNome() + " | " + colaborador.getCpfcnpj() + "</strong> ")
+                .body("body ( acertar o corpo da mensagem  : <strong> " + colaborador.getNome() + " | " + colaborador.getCpfcnpj() + "</strong> ")
                 .recipient(colaborador.getEmailAddress()).build(); // mais de um dest, duplicar esta linha
         emailService.sendMessage(mensagem);
         return mensagem.toString();
@@ -116,7 +119,6 @@ public class CadastroColaboradorService {
             colaboradorRepository.flush();
         } catch (EmptyResultDataAccessException e) {
             throw new ColaboradorNaoEncontradoException(colaboradorId);
-
         } catch (DataIntegrityViolationException e) {
             throw new ColaboradorEmUsoException(
                     String.format(MSG_COLABORADOR_EM_USO, colaboradorId));

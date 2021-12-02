@@ -18,8 +18,6 @@ public class ColaboradorModel {
 
     // retorna na consulta findById
 
-//    @JsonView(ColaboradorView.Resumo.class)
-
     @JsonView(ColaboradorView.Resumo.class)
     private Long id;
 
@@ -35,7 +33,6 @@ public class ColaboradorModel {
     @JsonView(ColaboradorView.Resumo.class)
     private String rg;
 
-    @JsonView(ColaboradorView.Resumo.class)
     private EnderecoModel endereco;
 
     @JsonView(ColaboradorView.Resumo.class)

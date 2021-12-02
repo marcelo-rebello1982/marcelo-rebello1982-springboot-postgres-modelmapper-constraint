@@ -27,4 +27,12 @@ public class Usuario extends AbstractEntity<Long> {
             inverseJoinColumns = @JoinColumn(name = "grupo_id"))
     private List<Grupo> grupos = new ArrayList<>();
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinTable(name = "usuario_perfil",
+            joinColumns = {@JoinColumn(name = "usuario_id",
+                    referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "perfil_id",
+                    referencedColumnName = "id")})
+    private Perfil perfil;
+
 }
