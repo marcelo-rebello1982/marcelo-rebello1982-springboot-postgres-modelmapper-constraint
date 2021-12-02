@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,15 +35,36 @@ public class CadastroCidadeService {
 
     public Cidade save(Cidade cidade) {
 
-        List<Cidade> isExists = findCidadeByNome(cidade.getNome(), cidadeRepository.findAll());
-        if (!isExists.isEmpty())
+        //Predicate<Cidade> cidadeName = c -> c.getNome().equals(cidade.getNome());
+        // Predicate<Cidade> UFName = e -> e.getEstado().getNome().equals(estado.get().getNome());
+
+        Optional<Estado> estado = estadoRepository.findById(cidade.getEstado().getId());
+
+        List<Cidade> isExists = cidadeRepository.findAll()
+                .stream().filter(c -> c.getNome().equals(cidade.getNome()))
+                .filter(e -> e.getEstado().getNome().equals(estado.get().getNome())).collect(Collectors.toList());
+        if (!isExists.isEmpty()) {
             for (Cidade c : isExists) {
                 throw new CidadeEncontradaException("CIDADE " + c.getNome() + " JÁ CADASTRADA NO ESTADO DE : "
                         + estadoRepository.findById(cidade.getEstado().getId()).get().getNome());
             }
+        }
         cidade.setEstado(cadastroEstado.findById(cidade.getEstado().getId()));
         return cidadeRepository.save(cidade);
     }
+
+//    public Cidade save(Cidade cidade) {
+//
+//        List<Cidade> isExists = findCidadeByNome(cidade.getNome(), cidadeRepository.findAll());
+//        if (!isExists.isEmpty())
+//            for (Cidade c : isExists) {
+//                throw new CidadeEncontradaException("CIDADE " + c.getNome() + " JÁ CADASTRADA NO ESTADO DE : "
+//                        + estadoRepository.findById(cidade.getEstado().getId()).get().getNome());
+//            }
+//        cidade.setEstado(cadastroEstado.findById(cidade.getEstado().getId()));
+//        return cidadeRepository.save(cidade);
+//    }
+
 
     public List<Cidade> findCidadeByNome(String nome, List<Cidade> list) {
         return list.stream()
