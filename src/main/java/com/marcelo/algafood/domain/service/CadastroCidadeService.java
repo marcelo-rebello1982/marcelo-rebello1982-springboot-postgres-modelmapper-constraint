@@ -35,14 +35,12 @@ public class CadastroCidadeService {
 
     public Cidade save(Cidade cidade) {
 
-        //Predicate<Cidade> cidadeName = c -> c.getNome().equals(cidade.getNome());
-        // Predicate<Cidade> UFName = e -> e.getEstado().getNome().equals(estado.get().getNome());
-
+        Predicate<Cidade> cidadeName = c -> c.getNome().equals(cidade.getNome());
         Optional<Estado> estado = estadoRepository.findById(cidade.getEstado().getId());
-
+         Predicate<Cidade> UFName = e -> e.getEstado().getNome().equals(estado.get().getNome());
         List<Cidade> isExists = cidadeRepository.findAll()
-                .stream().filter(c -> c.getNome().equals(cidade.getNome()))
-                .filter(e -> e.getEstado().getNome().equals(estado.get().getNome())).collect(Collectors.toList());
+                .stream().filter(cidadeName)
+                .filter(UFName).collect(Collectors.toList());
         if (!isExists.isEmpty()) {
             for (Cidade c : isExists) {
                 throw new CidadeEncontradaException("CIDADE " + c.getNome() + " JÁ CADASTRADA NO ESTADO DE : "
