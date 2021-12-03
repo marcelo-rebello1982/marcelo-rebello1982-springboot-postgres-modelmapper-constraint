@@ -57,6 +57,12 @@ public class ColaboradorController {
                 colaboradorPage.getTotalElements());
     }
 
+    @GetMapping("/findByPhone")
+    public ColaboradorModel findByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber) {
+        Colaborador colaboradorResponse = colaboradorService.findByPhone(phoneNumber);
+        return colaboradorModelAssembler.toModel(colaboradorResponse);
+    }
+
     @GetMapping(params = "projecao=resumo")
     @JsonView(ColaboradorView.Resumo.class)
     public Page<ColaboradorModel> findAllResumed(@PageableDefault(size = 10) Pageable pageable) {

@@ -2,7 +2,6 @@ package com.marcelo.algafood.domain.service;
 
 
 import com.marcelo.algafood.api.controller.CidadeController;
-import com.marcelo.algafood.api.model.input.ColaboradorInput;
 import com.marcelo.algafood.domain.exception.ColaboradorEmUsoException;
 import com.marcelo.algafood.domain.exception.ColaboradorNaoEncontradoException;
 import com.marcelo.algafood.domain.exception.ConstraintViolationException;
@@ -58,8 +57,14 @@ public class CadastroColaboradorService {
 
     public Page<Colaborador> findAll(Pageable pageable) {
         return colaboradorRepository.findAll(pageable);
+
     }
 
+    public Colaborador findByPhone(String phoneNumber) {
+        return colaboradorRepository.findByPhone(phoneNumber)
+                .orElseThrow(() -> new ColaboradorNaoEncontradoException(phoneNumber));
+
+    }
 
     public Colaborador findById(Long colaboradorId) {
         return colaboradorRepository.findById(colaboradorId)
@@ -67,7 +72,13 @@ public class CadastroColaboradorService {
     }
 
     public Colaborador save(Colaborador colaborador) {
+
         returnToJsonGetCidadeGetUf(colaborador);
+
+        if (getByNomeOrEmail(colaborador).isPresent())
+            throw new ResourceAlreadyExistsException(" EMAIL: " + colaborador.getEmailAddress() +
+                    " JÁ CADASTRADO PARA: " + " ID: " + getByNomeOrEmail(colaborador).get().getId() +
+                    " : " + getByNomeOrEmail(colaborador).get().getNome());
         try {
             for (Cafe cafe : colaborador.getCafeList()) {
                 List<Cafe> cafesList = cafeRepository.findAll()
@@ -96,6 +107,18 @@ public class CadastroColaboradorService {
         return colaborador;
     }
 
+    private Optional<Colaborador> getByNomeOrEmail(Colaborador colaborador) {
+        return colaboradorRepository.findByNomeOrEmail(colaborador.getNome(), colaborador.getEmailAddress());
+    }
+
+    // necessario para retornar no Json o nome da cidade/uf
+    private void returnToJsonGetCidadeGetUf(Colaborador colaborador) {
+        Optional<Cidade> cidade = cidadeRepository.findById(colaborador.getEndereco().getCidade().getId());
+        colaborador.getEndereco().getCidade().setNome(cidade.get().getNome());
+        colaborador.getEndereco().getCidade().setEstado(cidade.get().getEstado());
+    }
+
+
     private String sendMailToConfirmRegistration(Colaborador colaborador) {
         var mensagem = SendMailServiceInterface.Message.builder()
                 .subject(colaborador.getNome() + " para esse cara")
@@ -105,12 +128,6 @@ public class CadastroColaboradorService {
         return mensagem.toString();
     }
 
-    // necessario para retornar no Json o nome da cidade/uf
-    private void returnToJsonGetCidadeGetUf(Colaborador colaborador) {
-        Optional<Cidade> cidade = cidadeRepository.findById(colaborador.getEndereco().getCidade().getId());
-        colaborador.getEndereco().getCidade().setNome(cidade.get().getNome());
-        colaborador.getEndereco().getCidade().setEstado(cidade.get().getEstado());
-    }
 
     @Transactional
     public void delete(Long colaboradorId) {
@@ -124,4 +141,6 @@ public class CadastroColaboradorService {
                     String.format(MSG_COLABORADOR_EM_USO, colaboradorId));
         }
     }
+
+
 }

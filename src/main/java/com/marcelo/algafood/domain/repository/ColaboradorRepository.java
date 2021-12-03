@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ColaboradorRepository extends CustomJpaRepository<Colaborador, Long> {
@@ -22,10 +23,15 @@ public interface ColaboradorRepository extends CustomJpaRepository<Colaborador, 
     @Query("select c from Colaborador c where c.nome = ?1")
     <T> List<T> findByNome(String nome, Class<T> type);
 
-    @Query("select c from Colaborador c where c.nome = :name or c.cpfcnpj = :type")
+    // @Query("select c from Colaborador c where c.nome = :nome or c.cpfcnpj = :cpfcnpj")
     <T> T findByNomeOrCpfcnpj(@Param("name") String name, Class<T> type);
+
+    @Query("select c from Colaborador c where c.nome = :nome or c.emailAddress = :emailAddress")
+    Optional<Colaborador> findByNomeOrEmail(@Param("nome") String nome, @Param("emailAddress") String emailAddress);
 
     @Query("select c from Colaborador c where c.nome = ?1 and c.cpfcnpj = ?2")
     <T> T findByNomeAndCpfcnpj(String name, int age, Class<T> type);
 
+    @Query("select c from Colaborador c where c.phoneList = ?1")
+    Optional<Colaborador> findByPhone(String phoneNumber);
 }
