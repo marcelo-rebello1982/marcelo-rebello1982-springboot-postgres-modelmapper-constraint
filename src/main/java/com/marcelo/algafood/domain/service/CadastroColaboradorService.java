@@ -79,6 +79,7 @@ public class CadastroColaboradorService {
             throw new ResourceAlreadyExistsException(" EMAIL: " + colaborador.getEmailAddress() +
                     " JÁ CADASTRADO PARA: " + " ID: " + getByNomeOrEmail(colaborador).get().getId() +
                     " : " + getByNomeOrEmail(colaborador).get().getNome());
+
         try {
             for (Cafe cafe : colaborador.getCafeList()) {
                 List<Cafe> cafesList = cafeRepository.findAll()
